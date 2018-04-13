@@ -3,6 +3,7 @@ using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -47,7 +48,17 @@ namespace Extension
 
 
 
-
+        public static string ToSHA1(this string value)
+        {
+            string result = string.Empty;
+            SHA1 sha1 = new SHA1CryptoServiceProvider();
+            byte[] array = sha1.ComputeHash(Encoding.Unicode.GetBytes(value));
+            for (int i = 0; i < array.Length; i++)
+            {
+                result += array[i].ToString("x2");
+            }
+            return result;
+        }
 
 
 
@@ -61,6 +72,25 @@ namespace Extension
                 result = defaultValue;
             }
             return result;
+        }
+
+        public static bool ToBool(this string value)
+        {
+            bool result = false;
+            bool.TryParse(value, out result);
+            return result;
+        }
+
+        public static DateTime ToDateTime(this string value, DateTime defaultValue)
+        {
+            DateTime result;
+            DateTime.TryParse(value, out result);
+            return result == DateTime.MinValue ? defaultValue : result;
+        }
+
+        public static DateTime ToDateTime(this string value)
+        {
+            return ToDateTime(value, DateTime.MinValue);
         }
 
 
