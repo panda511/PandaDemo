@@ -26,6 +26,16 @@ namespace Extension
             return result;
         }
 
+        public static string TrimEnd2(this string value, params char[] trimChars)
+        {
+            string result = value;
+            if (!value.IsNullOrEmpty())
+            {
+                result = value.TrimEnd(trimChars);
+            }
+            return result;
+        }
+
         public static string PadLeft2(this string value, int totalWidth, char paddingChar)
         {
             string result = string.Empty;
