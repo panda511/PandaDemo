@@ -13,7 +13,6 @@ namespace FileReadWrite
         {
             StreamReader sr = new StreamReader(@"E:\ff.txt");
             string line = string.Empty;
-            int count = 0;
             while ((line = sr.ReadLine()) != null)
             {
                 Console.WriteLine(line);
