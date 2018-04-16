@@ -22,6 +22,20 @@ namespace ModelVerifyDemo.Filter
                     filterContext.ActionParameters[parameter.ParameterName] = (filterContext.ActionParameters[parameter.ParameterName] as string)?.Trim();
                 }
             }
+
+            //模型验证
+            //if (actionContext.ModelState.IsValid == false)
+            //{
+            //    // Return the validation errors in the response body.
+            //    // 在响应体中返回验证错误
+            //    var errors = new Dictionary<string, IEnumerable<string>>();
+            //    foreach (KeyValuePair<string, ModelState> keyValue in actionContext.ModelState)
+            //    {
+            //        errors[keyValue.Key] = keyValue.Value.Errors.Select(e => e.ErrorMessage);
+            //    }
+
+            //    actionContext.Response = actionContext.Request.CreateResponse(HttpStatusCode.BadRequest, errors);
+            //}
         }
 
         /// <summary>
