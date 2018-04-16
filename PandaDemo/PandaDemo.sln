@@ -17,7 +17,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Redis", "Redis\Redis.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MongoDB", "MongoDB\MongoDB.csproj", "{8233F08A-E6DA-4911-8699-B1763EFF6742}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModelVerify", "ModelVerifyDemo\ModelVerify.csproj", "{829146E7-D0D4-4FE4-8F7E-E75745EE78FA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModelVerify", "ModelVerify\ModelVerify.csproj", "{829146E7-D0D4-4FE4-8F7E-E75745EE78FA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
