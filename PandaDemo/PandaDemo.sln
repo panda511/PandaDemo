@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Export2Excel", "Export2Exce
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Redis", "Redis\Redis.csproj", "{715CB220-2AD7-41F3-82D9-372524691900}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MongoDB", "MongoDB\MongoDB.csproj", "{8233F08A-E6DA-4911-8699-B1763EFF6742}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{715CB220-2AD7-41F3-82D9-372524691900}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{715CB220-2AD7-41F3-82D9-372524691900}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{715CB220-2AD7-41F3-82D9-372524691900}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8233F08A-E6DA-4911-8699-B1763EFF6742}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8233F08A-E6DA-4911-8699-B1763EFF6742}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8233F08A-E6DA-4911-8699-B1763EFF6742}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8233F08A-E6DA-4911-8699-B1763EFF6742}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
