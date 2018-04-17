@@ -38,5 +38,15 @@ namespace Extension.Extention
             }
             return (T)p;
         }
+
+        public static string ToString2(this object value)
+        {
+            string result = null;
+            if (value != null)
+            {
+                result = value.ToString();
+            }
+            return result;
+        }
     }
 }
