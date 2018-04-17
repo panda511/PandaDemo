@@ -1,0 +1,39 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    <div>
+    </div>
+</body>
+</html>
+
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+
+    var url = '/home/getData';
+    var param = {
+        name: 'jk',
+        Age: 2,
+        birthday: '1900-2-3',
+        Email: 'asd@aa.com',
+        HasBrotherOrSister: true,
+        Sex: 1,
+        Password: '123',
+        RptPassword: '1234'
+    };
+
+    $.post(url, param, function (result) { });
+</script>
+
+
+
