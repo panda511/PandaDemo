@@ -101,6 +101,27 @@ namespace Redis
             server.FlushDatabase();
         }
 
+        /// <summary>
+        /// 移除以指定key开头的缓存
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public static void RemovePatten(string key)
+        {
+            //Redis的keys模糊查询： local ks为定义一个局部变量，其中用于存储获取到的keys
+            //#ks为ks集合的个数, 语句的意思： for(int i = 1; i <= ks.Count; i+=5000)
+            //Lua集合索引值从1为起始，unpack为解包，获取ks集合中的数据，每次5000，然后执行删除
+            string script = @"
+                local ks = redis.call('KEYS', @keypattern)
+                for i=1,#ks,5000 do
+                redis.call('del', unpack(ks, i, math.min(i+4999, #ks))) 
+                end
+                return true
+            ";
+            var redis = ConnectionMultiplexer.Connect("127.0.0.1:6379,allowAdmin = true");
+            redis.GetDatabase().ScriptEvaluate(LuaScript.Prepare(script), new { keypattern = key + @"*" });
+        }
+
         public class Person
         {
             public int Id { get; set; }
