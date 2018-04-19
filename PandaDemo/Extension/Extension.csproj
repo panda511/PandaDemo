@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enum\BoolType.cs" />
     <Compile Include="Extention\ListExtention.cs" />
     <Compile Include="Extention\ObjectExtension.cs" />
     <Compile Include="Program.cs" />

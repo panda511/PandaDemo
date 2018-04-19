@@ -57,6 +57,20 @@ namespace Extension
         }
 
 
+        public static string ToBase64(this string value)
+        {
+            byte[] bytes = Encoding.UTF8.GetBytes(value);
+            string result = Convert.ToBase64String(bytes);
+            return result;
+        }
+
+        public static string FromBase64(this string value)
+        {
+            byte[] bytes = Convert.FromBase64String(value);
+            string result = Encoding.UTF8.GetString(bytes);
+            return result;
+        }
+
 
         public static string ToSHA1(this string value)
         {
