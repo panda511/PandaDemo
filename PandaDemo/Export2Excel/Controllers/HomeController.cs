@@ -23,7 +23,8 @@ namespace Export2Excel.Controllers
         public FileResult Export()
         {
             var list = GetData();
-            string excelName = "人员信息";
+            string excelName = "abcd";
+            //string excelName = "人员信息";
             MemoryStream memoryStream = ExcelUtil.ExportExcel(list, excelName);
             using (memoryStream)
             {
@@ -65,6 +66,9 @@ namespace Export2Excel.Controllers
 
         [Description("出生日期")]
         public DateTime Birthday { get; set; }
+
+        [Description("出生")]
+        public string BirthTime { get { return Birthday.ToString("yyyy-MM-dd HH:mm:ss"); } }
     }
    
 }

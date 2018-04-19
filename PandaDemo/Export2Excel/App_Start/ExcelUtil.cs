@@ -266,7 +266,7 @@ namespace WSSS.Helpers
                                 val = value.ToString().Trim();
                             }
                         }
-                        val = "2017-10-12 12:12:12";
+                        //val = "2017-10-12 12:12:12";
                         cell.SetCellValue(val); 
                         //SetCellValue(pi.PropertyType, cell, value == null ? "" : value.ToString().Trim());//根据字段类型设置单元格类型
                         cell.CellStyle = style;
