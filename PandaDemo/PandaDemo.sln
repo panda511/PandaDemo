@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModelVerify", "ModelVerify\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StringSimilarity", "StringSimilarity\StringSimilarity.csproj", "{BCEFFEFC-C1CF-4C6E-ACB8-B4B9879858FF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyHttp", "EasyHttp\EasyHttp.csproj", "{D3EFF54A-3FA2-41CE-A752-668690A01500}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,10 @@ Global
 		{BCEFFEFC-C1CF-4C6E-ACB8-B4B9879858FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BCEFFEFC-C1CF-4C6E-ACB8-B4B9879858FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BCEFFEFC-C1CF-4C6E-ACB8-B4B9879858FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3EFF54A-3FA2-41CE-A752-668690A01500}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3EFF54A-3FA2-41CE-A752-668690A01500}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3EFF54A-3FA2-41CE-A752-668690A01500}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3EFF54A-3FA2-41CE-A752-668690A01500}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
