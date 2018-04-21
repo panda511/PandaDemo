@@ -16,6 +16,8 @@ namespace Extension
             return string.IsNullOrEmpty(value);
         }
 
+        #region AvoidNull
+
         public static string Trim2(this string value)
         {
             string result = value;
@@ -46,7 +48,7 @@ namespace Extension
             return result.PadLeft(totalWidth, paddingChar);
         }
 
-        public static int GetLength(this string value)
+        public static int Length2(this string value)
         {
             int result = 0;
             if (!value.IsNullOrEmpty())
@@ -56,6 +58,9 @@ namespace Extension
             return result;
         }
 
+        #endregion
+
+        #region Encode
 
         public static string ToBase64(this string value)
         {
@@ -71,7 +76,6 @@ namespace Extension
             return result;
         }
 
-
         public static string ToSHA1(this string value)
         {
             string result = string.Empty;
@@ -84,8 +88,9 @@ namespace Extension
             return result;
         }
 
+        #endregion
 
-
+        #region TypeConvert
 
         public static int ToInt(this string value, int defaultValue = 0)
         {
@@ -117,13 +122,12 @@ namespace Extension
             return ToDateTime(value, DateTime.MinValue);
         }
 
-
-        public static T ToObject<T>(this string value)
+        public static T ToObject<T>(this string json)
         {
-            return JsonConvert.DeserializeObject<T>(value);
+            return JsonConvert.DeserializeObject<T>(json);
         }
 
-
+        #endregion
 
     }
 }
