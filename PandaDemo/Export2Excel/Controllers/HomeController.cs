@@ -14,7 +14,6 @@ namespace Export2Excel.Controllers
 {
     public class HomeController : Controller
     {
-        // GET: Home
         public ActionResult Index()
         {
             return View();
@@ -23,12 +22,9 @@ namespace Export2Excel.Controllers
         public FileResult Export()
         {
             var list = GetData();
-            string excelName = "abcd";
-            //string excelName = "人员信息";
-            MemoryStream memoryStream = ExcelUtil.ExportExcel(list, excelName);
-            using (memoryStream)
+            using (var memoryStream = list.ToExcel())
             {
-                return File(memoryStream.ToArray(), "application/vnd.ms-excel", excelName + ".xls");
+                return File(memoryStream.ToArray(), "application/vnd.ms-excel", "黑名单.xls");
             }
         }
 
@@ -56,19 +52,18 @@ namespace Export2Excel.Controllers
             return list;
         }
     }
+
+    [Excel("黑名单")]
     public class Person
     {
-        [Description("姓名")]
+        [Excel("姓名")]
         public string Name { get; set; }
 
-        [Description("年龄")]
+        [Excel("年龄")]
         public int Age { get; set; }
 
-        [Description("出生日期")]
+        [Excel("出生日期")]
         public DateTime Birthday { get; set; }
-
-        [Description("出生")]
-        public string BirthTime { get { return Birthday.ToString("yyyy-MM-dd HH:mm:ss"); } }
     }
    
 }
