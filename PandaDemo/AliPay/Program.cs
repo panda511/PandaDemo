@@ -55,7 +55,7 @@ namespace AliPay
         string appId = "2013092500031084";
         string format = "json";
         string version = "1.0";
-        string signType = "RSA2";
+        string signType = "RSA2"; 
         string charset = "utf-8";
         bool keyFromFile = false;
 
