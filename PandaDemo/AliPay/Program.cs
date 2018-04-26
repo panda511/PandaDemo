@@ -14,23 +14,26 @@ namespace AliPay
     {
         static void Main(string[] args)
         {
-            AliAppPay pay = new AliAppPay();
+            AliPay pay = new AliPay();
             decimal amount = 0.03m;
             string orderNo = "123456789";
             string subject = "iphone7 黑色 64G";
             string body = "京东商城"+ subject+ orderNo;
-            string str = pay.GetPayParameter(amount, orderNo, subject, body);
+            string str = pay.GetWebPayParameter(amount, orderNo, subject, body);
             Console.WriteLine(str);
             Console.Read();
         }
     }
 
-    public class AliAppPay
+    public class AliPay 
     {
         #region 支付配置项
 
         string appId = "2013092500031084";
         string notifyUrl = "http://www.qq.com/back.aspx";
+
+        string quitUrl = "http://www.qq.com/back.aspx"; //支付中途退出返回商户网站地址(web支付用)
+        string returnUrl = "http://www.qq.com/back.aspx"; //支付完成同步回调地址(web支付用)
 
         string appPrivateKey = @"
             MIICXQIBAAKBgQDIgHnOn7LLILlKETd6BFRJ0GqgS2Y3mn1wMQmyh9zEyWlz5p1z
@@ -64,9 +67,9 @@ namespace AliPay
         bool keyFromFile = false;
 
         /// <summary>
-        /// 获取支付参数
+        /// 获取APP支付参数
         /// </summary>
-        public string GetPayParameter(decimal amount, string orderNo, string subject, string body)
+        public string GetAppPayParameter(decimal amount, string orderNo, string subject, string body)
         {
             IAopClient client = new DefaultAopClient(url, appId, appPrivateKey, format, version, signType, appPublicKey, charset, keyFromFile);
 
@@ -90,6 +93,34 @@ namespace AliPay
             AlipayTradeAppPayResponse response = client.SdkExecute(request);
 
             //response.Body就是orderString 可以直接给客户端请求，无需再做处理。
+            return response.Body;
+        }
+
+        /// <summary>
+        /// 获取Web支付参数(一个from表单)
+        /// </summary>
+        public string GetWebPayParameter(decimal amount, string orderNo, string subject, string body)
+        {
+            IAopClient client = new DefaultAopClient(url, appId, appPrivateKey, format, version, signType, appPublicKey, charset, keyFromFile);
+
+            // 组装业务参数model
+            AlipayTradeWapPayModel model = new AlipayTradeWapPayModel();
+            model.Body = body;
+            model.Subject = subject;
+            model.TotalAmount = amount.ToString();
+            model.OutTradeNo = orderNo;
+            model.ProductCode = productCode;
+            model.QuitUrl = quitUrl;
+
+            AlipayTradeWapPayRequest request = new AlipayTradeWapPayRequest();
+
+            request.SetReturnUrl(returnUrl); // 支付中途退出返回商户网站地址
+            request.SetNotifyUrl(notifyUrl); // 设置支付完成异步通知接收地址
+
+            // 将业务model载入到request
+            request.SetBizModel(model);
+
+            AlipayTradeWapPayResponse response = client.pageExecute(request, null, "post");
             return response.Body;
         }
     }
