@@ -19,7 +19,7 @@ namespace AliPay
             string orderNo = "123456789";
             string subject = "iphone7 黑色 64G";
             string body = "京东商城"+ subject+ orderNo;
-            string str = pay.GetPayQuestParameter(amount, orderNo, subject, body);
+            string str = pay.GetPayParameter(amount, orderNo, subject, body);
             Console.WriteLine(str);
             Console.Read();
         }
@@ -27,7 +27,11 @@ namespace AliPay
 
     public class AliAppPay
     {
-        #region key
+        #region 支付配置项
+
+        string appId = "2013092500031084";
+        string notifyUrl = "http://www.qq.com/back.aspx";
+
         string appPrivateKey = @"
             MIICXQIBAAKBgQDIgHnOn7LLILlKETd6BFRJ0GqgS2Y3mn1wMQmyh9zEyWlz5p1z
             rahRahbXAfCfSqshSNfqOmAQzSHRVjCqjsAw1jyqrXaPdKBmr90DIpIxmIyKXv4G
@@ -52,17 +56,17 @@ namespace AliPay
         #endregion
 
         string url = "https://openapi.alipay.com/gateway.do";
-        string appId = "2013092500031084";
         string format = "json";
         string version = "1.0";
-        string signType = "RSA2"; 
+        string signType = "RSA2";
         string charset = "utf-8";
+        string productCode = "QUICK_MSECURITY_PAY";
         bool keyFromFile = false;
 
         /// <summary>
-        /// 获取支付请求参数
+        /// 获取支付参数
         /// </summary>
-        public string GetPayQuestParameter(decimal amount, string orderNo, string subject, string body)
+        public string GetPayParameter(decimal amount, string orderNo, string subject, string body)
         {
             IAopClient client = new DefaultAopClient(url, appId, appPrivateKey, format, version, signType, appPublicKey, charset, keyFromFile);
 
@@ -76,21 +80,17 @@ namespace AliPay
                 OutTradeNo = orderNo,
                 Subject = subject,
                 Body = body,
-                //TimeoutExpress = "15d"
-                ProductCode = "QUICK_MSECURITY_PAY",
+                ProductCode = productCode,
             };
 
             request.SetBizModel(model);
-            request.SetNotifyUrl("https//www.qq.com/abc.aspx");
+            request.SetNotifyUrl(notifyUrl);
 
             //这里和普通的接口调用不同，使用的是sdkExecute
             AlipayTradeAppPayResponse response = client.SdkExecute(request);
 
             //response.Body就是orderString 可以直接给客户端请求，无需再做处理。
-            return response.Body; 
-
-            //HttpUtility.HtmlEncode是为了输出到页面时防止被浏览器将关键参数html转义，实际打印到日志以及http传输不会有这个问题
-            //Response.Write(HttpUtility.HtmlEncode(response.Body));
+            return response.Body;
         }
     }
 }
