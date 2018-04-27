@@ -23,11 +23,11 @@ namespace WxPay
         /// 获取支付参数
         /// </summary>
         /// <returns></returns>
-        public WxPayParameter GetPayParameter(string orderNo, int amout, string body, string ip, string openId = null)
+        public WxPayParameter GetPayParameter(string orderNo, int amout, string body, string ip, string openId, string attach)
         {
             WxPayParameter param = null;
 
-            var wxOrder = CreatePrePayOrder(orderNo, amout, body, ip);
+            var wxOrder = CreatePrePayOrder(orderNo, amout, body, ip, openId, attach);
             if (wxOrder.IsReturnCodeSuccess() && wxOrder.IsResultCodeSuccess())
             {
                 param = new WxPayParameter()
@@ -49,13 +49,14 @@ namespace WxPay
         /// <summary>
         /// 创建微信预支付交易单
         /// </summary>
-        private UnifiedorderResult CreatePrePayOrder(string orderNo, int amount, string body, string ip, string openId = null)
+        private UnifiedorderResult CreatePrePayOrder(string orderNo, int amount, string body, string ip, string openId, string attach)
         {
             string nonceStr = TenPayV3Util.GetNoncestr();
             var payType = TenPayV3Type.APP;
 
-            var xmlDataInfo = new TenPayV3UnifiedorderRequestData(AppId, MchId, body, orderNo, amount, ip, NotifyUrl, payType, openId, Key, nonceStr);
-            var order = TenPayV3.Unifiedorder(xmlDataInfo);
+            var param = new TenPayV3UnifiedorderRequestData(AppId, MchId, body, orderNo, amount, ip, NotifyUrl, payType, openId, Key, nonceStr);
+            param.Attach = attach;
+            var order = TenPayV3.Unifiedorder(param);
             return order;
         }
 

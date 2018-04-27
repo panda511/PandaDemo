@@ -11,6 +11,6 @@ namespace WxPay
     /// </summary>
     public interface IWxPay
     {
-        WxPayParameter GetPayParameter(string orderNo, int amout, string body, string ip, string openId);
+        WxPayParameter GetPayParameter(string orderNo, int amout, string body, string ip, string openId, string attach = null);
     }
 }

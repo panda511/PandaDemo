@@ -20,9 +20,10 @@ namespace WxPay
             string body = "abcdefg";
             string ip = "127.0.0.1";
             string openId = "openId";
+            string attach = "充值订单";
 
             IWxPay pay = new WxAppPay();
-            var payParam = pay.GetPayParameter(orderNo, amount, body, ip, null);
+            var payParam = pay.GetPayParameter(orderNo, amount, body, ip, null, attach);
 
             IWxPay pay2 = new WxJsApiPay();
             var payParam2 = pay.GetPayParameter(orderNo, amount, body, ip, openId);
