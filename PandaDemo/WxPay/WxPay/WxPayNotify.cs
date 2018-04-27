@@ -10,10 +10,16 @@ using System.Threading.Tasks;
 
 namespace WxPay.WxPay
 {
+    /// <summary>
+    /// 微信支付回调通知
+    /// </summary>
     public class WxPayNotify
     {
         ResponseHandler resp = null;
 
+        /// <summary>
+        /// 当前的微信支付回调通知是否安全
+        /// </summary>
         public bool IsSafe
         {
             get
@@ -329,16 +335,14 @@ namespace WxPay.WxPay
         {
             resp = new ResponseHandler(null);
 
-            //根据AppId判断是APP支付的回调还是JsApi支付的回调
             if (TradeType == TenPayV3Type.JSAPI.ToString())
             {
-                resp.SetKey("");
+                resp.SetKey(WxJsApiPay.AppId);
             }
             else if(TradeType == TenPayV3Type.APP.ToString())
             {
-                resp.SetKey("");
+                resp.SetKey(WxAppPay.AppId);
             }
-
         }
     }
 }

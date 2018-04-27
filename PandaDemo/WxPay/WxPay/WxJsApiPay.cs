@@ -11,21 +11,21 @@ namespace WxPay
 {
     public class WxJsApiPay : IWxPay
     {
-        string appId = "";// (ConfigurationManager.AppSettings["WxJsApiPayAppId"]).Trim2();
-        string mchId = "";//(ConfigurationManager.AppSettings["WxJsApiPayMchId"]).Trim2();
-        string key = "";//(ConfigurationManager.AppSettings["WxJsApiPayKey"]).Trim2(); //支付密钥
-        string notifyUrl = "";//(ConfigurationManager.AppSettings["WxPayNotifyUrl"]).Trim2();
-        string appSecret = "";//(ConfigurationManager.AppSettings["WxJsApiPayAppSecret"]).Trim2(); //唯一凭证密钥，仅JSAPI支付的时候需要配置，用于获取openId
+        public static readonly string AppId = "";
+        public static readonly string MchId = "";
+        public static readonly string Key = "";
+        public static readonly string NotifyUrl = "";
+        public static readonly string AppSecret = ""; //唯一凭证密钥，仅JSAPI支付的时候需要配置，用于获取openId
 
         /// <summary>
         /// 获取支付参数
         /// </summary>
         /// <returns></returns>
-        public WxPayParameter GetPayParameter(string orderNo, int amout, string body, string ip, string openId)
+        public WxPayParameter GetPayParameter(string orderNo, int amount, string body, string ip, string openId)
         {
             WxPayParameter param = null;
 
-            var wxOrder = CreatePrePayOrder(orderNo, amout, body, openId, ip);
+            var wxOrder = CreatePrePayOrder(orderNo, amount, body, openId, ip);
             if (wxOrder.IsReturnCodeSuccess() && wxOrder.IsResultCodeSuccess())
             {
                 param = new WxPayParameter()
@@ -38,7 +38,7 @@ namespace WxPay
                     Package = string.Format("prepay_id={0}", wxOrder.prepay_id),
                 };
 
-                param.Sign = TenPayV3.GetJsPaySign(appId, param.TimeStamp, param.NonceStr, param.Package, key, param.SignType);
+                param.Sign = TenPayV3.GetJsPaySign(AppId, param.TimeStamp, param.NonceStr, param.Package, Key, param.SignType);
             }
 
             return param;
@@ -47,12 +47,12 @@ namespace WxPay
         /// <summary>
         /// 创建微信预支付交易单
         /// </summary>
-        private UnifiedorderResult CreatePrePayOrder(string orderNo, int amout, string body, string openId, string ip)
+        private UnifiedorderResult CreatePrePayOrder(string orderNo, int amount, string body, string openId, string ip)
         {
             string nonceStr = TenPayV3Util.GetNoncestr();
             var payType = TenPayV3Type.JSAPI;
 
-            var xmlDataInfo = new TenPayV3UnifiedorderRequestData(appId, mchId, body, orderNo, amout, ip, notifyUrl, payType, openId, key, nonceStr);
+            var xmlDataInfo = new TenPayV3UnifiedorderRequestData(AppId, MchId, body, orderNo, amount, ip, NotifyUrl, payType, openId, Key, nonceStr);
             var order = TenPayV3.Unifiedorder(xmlDataInfo);
             return order;
         }

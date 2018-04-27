@@ -14,11 +14,10 @@ namespace WxPay
     /// </summary>
     public class WxAppPay: IWxPay
     {
-        string appId = "";//(ConfigurationManager.AppSettings["WxAppPayAppId"]).Trim2();
-        string mchId = "";//(ConfigurationManager.AppSettings["WxAppPayMchId"]).Trim2();
-        string key = "";//(ConfigurationManager.AppSettings["WxAppPayKey"]).Trim2(); //支付密钥
-        string notifyUrl = "";//(ConfigurationManager.AppSettings["WxPayNotifyUrl"]).Trim2();
-        string appSecret = "";//(ConfigurationManager.AppSettings["WxAppPayAppSecret"]).Trim2(); //唯一凭证密钥，仅JSAPI支付的时候需要配置，用于获取openId
+        public static readonly string AppId = "";
+        public static readonly string MchId = "";
+        public static readonly string Key = "";
+        public static readonly string NotifyUrl = "";
 
         /// <summary>
         /// 获取支付参数
@@ -55,7 +54,7 @@ namespace WxPay
             string nonceStr = TenPayV3Util.GetNoncestr();
             var payType = TenPayV3Type.APP;
 
-            var xmlDataInfo = new TenPayV3UnifiedorderRequestData(appId, mchId, body, orderNo, amount, ip, notifyUrl, payType, openId, key, nonceStr);
+            var xmlDataInfo = new TenPayV3UnifiedorderRequestData(AppId, MchId, body, orderNo, amount, ip, NotifyUrl, payType, openId, Key, nonceStr);
             var order = TenPayV3.Unifiedorder(xmlDataInfo);
             return order;
         }
