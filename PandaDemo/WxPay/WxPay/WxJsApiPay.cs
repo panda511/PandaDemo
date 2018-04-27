@@ -15,7 +15,7 @@ namespace WxPay
         string mchId = "";//(ConfigurationManager.AppSettings["WxJsApiPayMchId"]).Trim2();
         string key = "";//(ConfigurationManager.AppSettings["WxJsApiPayKey"]).Trim2(); //支付密钥
         string notifyUrl = "";//(ConfigurationManager.AppSettings["WxPayNotifyUrl"]).Trim2();
-        string appSecret = "";//(ConfigurationManager.AppSettings["WxJsApiPayAppSecret"]).Trim2(); //唯一凭证密钥
+        string appSecret = "";//(ConfigurationManager.AppSettings["WxJsApiPayAppSecret"]).Trim2(); //唯一凭证密钥，仅JSAPI支付的时候需要配置，用于获取openId
 
         /// <summary>
         /// 获取支付参数
