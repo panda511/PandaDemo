@@ -66,14 +66,14 @@ namespace WxPay
         {
             //设置支付参数
             RequestHandler paySignReqHandler = new RequestHandler(null);
-            paySignReqHandler.SetParameter("appId", appId);
-            paySignReqHandler.SetParameter("partnerId", mchId);
+            paySignReqHandler.SetParameter("appId", AppId);
+            paySignReqHandler.SetParameter("partnerId", MchId);
             paySignReqHandler.SetParameter("prepayId", prepayId);
             paySignReqHandler.SetParameter("package", package);
             paySignReqHandler.SetParameter("nonceStr", nonceStr);
             paySignReqHandler.SetParameter("timeStamp", timeStamp);
             paySignReqHandler.SetParameter("signType", signType);
-            var paySign = paySignReqHandler.CreateMd5Sign("key", key);
+            var paySign = paySignReqHandler.CreateMd5Sign("key", Key);
             return paySign;
         }
 

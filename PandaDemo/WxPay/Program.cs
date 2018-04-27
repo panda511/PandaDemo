@@ -30,5 +30,23 @@ namespace WxPay
             Console.WriteLine(payParam2.ToJson());
             Console.Read();
         }
+
+        static void Main2(string[] args)
+        {
+            WxPayNotify notify = new WxPayNotify();
+            if (notify.IsSafe)
+            {
+                string orderNo = notify.OutTradeNo;
+                decimal amount = 0;
+                //amount = GetOrder(orderNo).Amount 获取订单金额 注意订单是否存在
+                
+                //检查金额是否一致
+                if (amount == notify.TotalFee)
+                {
+                    //进行业务操作
+                }
+            }
+
+        }
     }
 }

@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WxPay.WxPay
+namespace WxPay
 {
     /// <summary>
     /// 微信支付回调通知
