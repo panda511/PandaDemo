@@ -103,6 +103,17 @@ namespace Extension
             return result;
         }
 
+        public static decimal ToDecimal(this string value, decimal defaultValue = 0)
+        {
+            decimal result = 0;
+            bool success = decimal.TryParse(value, out result);
+            if (!success)
+            {
+                result = defaultValue;
+            }
+            return result;
+        }
+
         public static bool ToBool(this string value)
         {
             bool result = false;

@@ -37,6 +37,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -45,13 +46,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AliPay.cs" />
+    <Compile Include="AliPayNotify.cs" />
+    <Compile Include="AliPayTradeStatus.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Extension\Extension.csproj">
+      <Project>{BAA7E51E-85FC-4F47-A07E-8732439507D0}</Project>
+      <Name>Extension</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <Content Include="dll\AopSdk.dll" />
   </ItemGroup>
