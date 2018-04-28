@@ -9,6 +9,9 @@ using System.Web;
 
 namespace AliPay
 {
+    /// <summary>
+    /// 支付宝回调通知类
+    /// </summary>
     public class AliPayNotify
     {
         HttpRequest request = null;
@@ -26,21 +29,25 @@ namespace AliPay
             get
             {
                 bool safe = false;
-                var dict = new Dictionary<string, string>();
 
-                //获取当前请求中的post参数
-                var keys = request.Form.AllKeys;
-                if (keys != null)
+                //验证商户
+                if (this.AppId == AliPay.AppId && this.SellerId == AliPay.AppId)
                 {
-                    foreach (string key in keys)
+                    //获取当前请求中的post参数
+                    var dict = new Dictionary<string, string>();
+                    var keys = request.Form.AllKeys;
+                    if (keys != null)
                     {
-                        dict.Add(key, request.Form[key]);
+                        foreach (string key in keys)
+                        {
+                            dict.Add(key, request.Form[key]);
+                        }
                     }
-                }
 
-                if (dict.Count > 0)
-                {
-                    safe = AlipaySignature.RSACheckV1(dict, AliPay.AppPublicKey, AliPay.Charset);
+                    if (dict.Count > 0)
+                    {
+                        safe = AlipaySignature.RSACheckV1(dict, AliPay.AppPublicKey, AliPay.Charset);
+                    }
                 }
 
                 return safe;
