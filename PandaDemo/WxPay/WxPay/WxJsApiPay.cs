@@ -9,11 +9,14 @@ using System.Threading.Tasks;
 
 namespace WxPay
 {
+    /// <summary>
+    /// 微信JSAPI支付类
+    /// </summary>
     public class WxJsApiPay : IWxPay
     {
         public static readonly string AppId = "";
         public static readonly string MchId = "";
-        public static readonly string Key = "";
+        public static readonly string Key = ""; //支付密钥
         public static readonly string NotifyUrl = "";
         public static readonly string AppSecret = ""; //唯一凭证密钥，仅JSAPI支付的时候需要配置，用于获取openId
 
@@ -39,6 +42,10 @@ namespace WxPay
                 };
 
                 param.Sign = TenPayV3.GetJsPaySign(AppId, param.TimeStamp, param.NonceStr, param.Package, Key, param.SignType);
+            }
+            else
+            {
+                //预支付订单创建失败，记日志
             }
 
             return param;

@@ -15,23 +15,47 @@ namespace WxPay
     /// </summary>
     public class WxPayNotify
     {
+        string appId = string.Empty;
         ResponseHandler resp = null;
 
         /// <summary>
-        /// 当前的微信支付回调通知是否安全
+        /// 回调通知是否安全
         /// </summary>
         public bool IsSafe
         {
             get
             {
                 bool safe = false;
-                if (resp.IsTenpaySign() && ReturnCode.ToUpper() == "SUCCESS")
+
+                if (ReturnCode.ToLower() == "success")
                 {
-                    safe = true;
+                    if (AppId == appId) //验证商户
+                    {
+                        safe = resp.IsTenpaySign(); //验证参数
+                    }
                 }
+
                 return safe;
             }
         }
+
+        public WxPayNotify()
+        {
+            resp = new ResponseHandler(HttpContext.Current);
+
+            if (TradeType == TenPayV3Type.JSAPI.ToString())
+            {
+                resp.SetKey(WxJsApiPay.Key);
+                appId = WxJsApiPay.AppId;
+            }
+            else if (TradeType == TenPayV3Type.APP.ToString())
+            {
+                resp.SetKey(WxAppPay.Key);
+                appId = WxAppPay.AppId;
+            }
+        }
+
+        #region 通知参数
 
         /// <summary>
         /// 返回状态码 SUCCESS/FAIL 此字段是通信标识，非交易标识，交易是否成功需要查看result_code来判断
@@ -56,7 +80,7 @@ namespace WxPay
         }
 
 
-        public string AppId 
+        public string AppId
         {
             get
             {
@@ -97,11 +121,11 @@ namespace WxPay
         /// <summary>
         /// 订单总金额，单位为分
         /// </summary>
-        public int TotalFee 
+        public int TotalFee
         {
             get
             {
-                return resp.GetParameter("total_fee").ToInt();
+                return resp.GetParameter("total_fee").ToInt32();
             }
         }
 
@@ -112,7 +136,7 @@ namespace WxPay
         {
             get
             {
-                return resp.GetParameter("settlement_total_fee").ToInt();
+                return resp.GetParameter("settlement_total_fee").ToInt32();
             }
         }
 
@@ -123,14 +147,14 @@ namespace WxPay
         {
             get
             {
-                return resp.GetParameter("cash_fee").ToInt();
+                return resp.GetParameter("cash_fee").ToInt32();
             }
         }
 
         /// <summary>
         /// 交易类型 	JSAPI、NATIVE、APP
         /// </summary>
-        public string TradeType 
+        public string TradeType
         {
             get
             {
@@ -289,7 +313,7 @@ namespace WxPay
         {
             get
             {
-                return resp.GetParameter("coupon_count").ToInt();
+                return resp.GetParameter("coupon_count").ToInt32();
             }
         }
 
@@ -326,23 +350,9 @@ namespace WxPay
         /// </summary>
         public int GetCouponFee(int n)
         {
-            return resp.GetParameter("coupon_fee_" + n).ToInt();
+            return resp.GetParameter("coupon_fee_" + n).ToInt32();
         }
 
-
-
-        public WxPayNotify()
-        {
-            resp = new ResponseHandler(null);
-
-            if (TradeType == TenPayV3Type.JSAPI.ToString())
-            {
-                resp.SetKey(WxJsApiPay.AppId);
-            }
-            else if(TradeType == TenPayV3Type.APP.ToString())
-            {
-                resp.SetKey(WxAppPay.AppId);
-            }
-        }
+        #endregion
     }
 }

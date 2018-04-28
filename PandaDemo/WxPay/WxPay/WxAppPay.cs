@@ -10,24 +10,24 @@ using System.Threading.Tasks;
 namespace WxPay
 {
     /// <summary>
-    /// 微信APP支付
+    /// 微信APP支付类
     /// </summary>
-    public class WxAppPay: IWxPay
+    public class WxAppPay : IWxPay
     {
         public static readonly string AppId = "";
         public static readonly string MchId = "";
-        public static readonly string Key = "";
+        public static readonly string Key = ""; //支付密钥
         public static readonly string NotifyUrl = "";
 
         /// <summary>
         /// 获取支付参数
         /// </summary>
         /// <returns></returns>
-        public WxPayParameter GetPayParameter(string orderNo, int amout, string body, string ip, string openId, string attach)
+        public WxPayParameter GetPayParameter(string orderNo, int amount, string body, string ip, string openId, string attach)
         {
             WxPayParameter param = null;
 
-            var wxOrder = CreatePrePayOrder(orderNo, amout, body, ip, openId, attach);
+            var wxOrder = CreatePrePayOrder(orderNo, amount, body, ip, openId, attach);
             if (wxOrder.IsReturnCodeSuccess() && wxOrder.IsResultCodeSuccess())
             {
                 param = new WxPayParameter()
@@ -41,6 +41,10 @@ namespace WxPay
                 };
 
                 param.Sign = GetPaySign(param.PrepayId, param.Package, param.NonceStr, param.TimeStamp, param.SignType);
+            }
+            else
+            {
+                //预支付订单创建失败，记日志
             }
 
             return param;

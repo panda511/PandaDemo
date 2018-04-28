@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace WxPay
 {
     /// <summary>
-    /// 微信支付
+    /// 微信支付接口
     /// </summary>
     public interface IWxPay
     {
