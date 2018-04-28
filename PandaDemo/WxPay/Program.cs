@@ -32,22 +32,75 @@ namespace WxPay
             Console.Read();
         }
 
-        static void Main2(string[] args)
+        static void Main22(string[] args) 
         {
+            string returnCode = "FAIL";
+            string returnMsg = "FAIL";
+
             WxPayNotify notify = new WxPayNotify();
             if (notify.IsSafe)
             {
-                string orderNo = notify.OutTradeNo;
-                decimal amount = 0;
-                //amount = GetOrder(orderNo).Amount 获取订单金额 注意订单是否存在
-                
-                //检查金额是否一致
-                if (amount == notify.TotalFee)
+                //交易成功
+                if (notify.ResultCode.ToLower() == "success")
                 {
-                    //进行业务操作
+                    if (notify.Attach == PayOrderType.RechargeOrder.ToString())
+                    {
+                        decimal tradeAmount = notify.TotalFee / 100m;
+                        bool success = HandleRechargeOrderNotify(notify.OutTradeNo, notify.TransactionId, tradeAmount);
+                        if (success)
+                        {
+                            returnCode = "SUCCESS";
+                            returnMsg = "OK";
+                        }
+                    }
                 }
             }
 
+            #region result
+            string result = @"
+                <xml>
+                    <return_code><![CDATA[{0}]]></return_code>
+                    <return_msg><![CDATA[{1}]]></return_msg>
+                </xml>
+            ";
+            result = string.Format(result, returnCode, returnMsg);
+            #endregion
+
+            //return Content(result, "text/xml");
         }
+
+        private static bool HandleRechargeOrderNotify(string outOrderNo, string tradeNo, decimal tradeAmout)
+        {
+            bool success = false;
+
+            //var order = service.GetOrder(outOrderNo);
+            //if (order != null)
+            //{
+            //    //充值订单还没处理过
+            //    if (order.Type == 2 && order.Status == 0)
+            //    {
+            //        //判断订单金额和回调通知金额是否一致
+            //        if (order.Money == tradeAmout)
+            //        {
+            //            success = 进行更新订单支付状态等业务操作;
+            //        }
+            //    }
+            //}
+
+            return success;
+        }
+
     }
+
+    public enum PayOrderType
+    {
+        ProductOrder,
+
+        VipOrder,
+
+        RechargeOrder
+    }
+
+
+
 }
