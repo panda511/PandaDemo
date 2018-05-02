@@ -1,6 +1,7 @@
 ﻿using EasyHttp.Http;
 using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,7 +10,7 @@ namespace EasyHttp
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main2(string[] args)
         {
             var param = new
             {
