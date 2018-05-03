@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Extension.Extention;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
@@ -12,7 +13,23 @@ namespace Extension
         static void Main(string[] args)
         {
             string str = "admin1801235";
-            Console.WriteLine(str.ToMd5());
+            //Console.WriteLine(str.ToMd5());
+
+
+       
+
+
+
+
+
+
+
+
+
+
+         
+
+
         }
 
     }
