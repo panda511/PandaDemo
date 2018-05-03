@@ -76,18 +76,37 @@ namespace Extension
             return result;
         }
 
-        public static string ToSHA1(this string value)
+        public static string ToSha1(this string value)
         {
             string result = string.Empty;
             SHA1 sha1 = new SHA1CryptoServiceProvider();
-            byte[] array = sha1.ComputeHash(Encoding.Unicode.GetBytes(value));
-            for (int i = 0; i < array.Length; i++)
+
+            byte[] bytes = Encoding.UTF8.GetBytes(value);
+            byte[] hash = sha1.ComputeHash(bytes);
+
+            for (int i = 0; i < hash.Length; i++)
             {
-                result += array[i].ToString("x2");
+                result += hash[i].ToString("x2");
             }
             return result;
         }
 
+        public static string ToMd5(this string value)
+        {
+            string result = string.Empty;
+            MD5 md5 = new MD5CryptoServiceProvider();
+
+            byte[] bytes = Encoding.UTF8.GetBytes(value);
+            byte[] hash = md5.ComputeHash(bytes);
+
+            for (int i = 0; i < hash.Length; i++)
+            {
+                result += hash[i].ToString("x2");
+            }
+
+            return result;
+        }
+         
         #endregion
 
         #region TypeConvert

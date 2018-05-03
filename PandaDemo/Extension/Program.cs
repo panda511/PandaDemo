@@ -10,6 +10,8 @@ namespace Extension
     {
         static void Main(string[] args)
         {
+            string str = "admin1801235";
+            Console.WriteLine(str.ToMD5());
         }
     }
 }
