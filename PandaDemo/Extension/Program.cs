@@ -1,4 +1,5 @@
 ﻿using Extension.Extention;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,25 +13,29 @@ namespace Extension
     {
         static void Main(string[] args)
         {
-            string str = "admin1801235";
+            //string str = "admin1801235";
             //Console.WriteLine(str.ToMd5());
 
+            JObject jObject = new JObject();
+            jObject.Add(new JProperty("Name", "James"));
+            jObject.Add(new JProperty("Age", "11"));
 
-       
+            string json = jObject.ToString();
+            var p = json.ToObject<Person>();
 
+            Console.WriteLine(json);
 
-
-
-
-
-
-
-
-
-         
-
+            Console.Read();
 
         }
 
+
+
+    }
+
+    class Person
+    {
+        public string NaMe { get; set; }
+        public int Age { get; set; }
     }
 }
