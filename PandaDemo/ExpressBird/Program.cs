@@ -48,11 +48,9 @@ namespace ExpressBird
         static void Main(string[] args)
         {
             KuaiDiNiao bird = new KuaiDiNiao();
-            //bird.CreateOrder();
+            bird.GetEOrder();
         }
     }
-
-
 
 
     public class KuaiDiNiao
