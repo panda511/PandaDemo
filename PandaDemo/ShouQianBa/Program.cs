@@ -15,7 +15,7 @@ namespace ShouQianBa
     {
         static void Main(string[] args)
         {
-            ShouQianBa sqb = new ShouQianBa("zaxscd", "123edsw");
+            ShouQianBa sqb = new ShouQianBa("112233445566", "999999999");
             var resp = sqb.Pay("asd", "zxc", "123", 1, "subject", "jim");
             Console.WriteLine(resp.ToJson());
             Console.Read();
@@ -57,31 +57,31 @@ namespace ShouQianBa
         /// <param name="notifyUrl">支付回调的地址</param>
         /// <param name="payWay">支付方式 1:支付宝 3:微信 4:百度钱包 5:京东钱包 6:qq钱包</param>
         /// <returns></returns>
-        public PayResponse Pay(string deviceId, string dynamicId, string orderNo, int amount, string subject, string operatePerson, string description = "", string longitude = "", string latitude = "", string extended = "", string reflect = "", string notifyUrl = "", string payWay = "")
+         public PayResponse Pay(string deviceId, string dynamicId, string orderNo, int amount, string subject, string operatePerson, string description = "", string longitude = "", string latitude = "", string extended = "", string reflect = "", string notifyUrl = "", string payWay = "")
         {
             #region 支付请求参数
 
-            JObject jObject = new JObject();
-            jObject.Add(new JProperty("terminal_sn", TerminalSn));
-            jObject.Add(new JProperty("client_sn", orderNo));
-            jObject.Add(new JProperty("total_amount", amount.ToString()));
-            jObject.Add(new JProperty("dynamic_id", dynamicId));
-            jObject.Add(new JProperty("subject", subject));
-            jObject.Add(new JProperty("operator", operatePerson));
-            jObject.Add(new JProperty("device_id", deviceId));
-            jObject.Add(new JProperty("description", description));
-            jObject.Add(new JProperty("longitude", longitude));
-            jObject.Add(new JProperty("latitude", latitude));
-            jObject.Add(new JProperty("extended", extended));
-            jObject.Add(new JProperty("reflect", reflect));
-            jObject.Add(new JProperty("notify_url", notifyUrl));
-            jObject.Add(new JProperty("payway", payWay));
+            //JObject jObject = new JObject();
+            //jObject.Add(new JProperty("terminal_sn", TerminalSn));
+            //jObject.Add(new JProperty("client_sn", orderNo));
+            //jObject.Add(new JProperty("total_amount", amount.ToString()));
+            //jObject.Add(new JProperty("dynamic_id", dynamicId));
+            //jObject.Add(new JProperty("subject", subject));
+            //jObject.Add(new JProperty("operator", operatePerson));
+            //jObject.Add(new JProperty("device_id", deviceId));
+            //jObject.Add(new JProperty("description", description));
+            //jObject.Add(new JProperty("longitude", longitude));
+            //jObject.Add(new JProperty("latitude", latitude));
+            //jObject.Add(new JProperty("extended", extended));
+            //jObject.Add(new JProperty("reflect", reflect));
+            //jObject.Add(new JProperty("notify_url", notifyUrl));
+            //jObject.Add(new JProperty("payway", payWay));
 
             var data = new
             {
                 terminal_sn = TerminalSn,
                 client_sn = orderNo,
-                total_amount = amount,
+                total_amount = amount.ToString(),
                 dynamic_id = dynamicId,
                 subject,
                 Operator = operatePerson,
@@ -95,8 +95,7 @@ namespace ShouQianBa
                 payway = payWay
             };
 
-
-            string param = jObject.ToString(); //data.ToJson();
+            string param = data.ToJson(); 
             string sign = (param + TerminalKey).ToMd5();
 
             #endregion
