@@ -34,6 +34,8 @@ namespace ShouQianBa
         /// </summary>
         public string TerminalKey { get; }
 
+        private string domain = "https://api.shouqianba.com/";
+
         public ShouQianBa(string terminalSn, string terminalKey)
         {
             TerminalSn = terminalSn;
@@ -57,26 +59,8 @@ namespace ShouQianBa
         /// <param name="notifyUrl">支付回调的地址</param>
         /// <param name="payWay">支付方式 1:支付宝 3:微信 4:百度钱包 5:京东钱包 6:qq钱包</param>
         /// <returns></returns>
-         public PayResponse Pay(string deviceId, string dynamicId, string orderNo, int amount, string subject, string operatePerson, string description = "", string longitude = "", string latitude = "", string extended = "", string reflect = "", string notifyUrl = "", string payWay = "")
+        public SqbResponse<PayData> Pay(string deviceId, string dynamicId, string orderNo, int amount, string subject, string operatePerson, string description = "", string longitude = "", string latitude = "", string extended = "", string reflect = "", string notifyUrl = "", string payWay = "")
         {
-            #region 支付请求参数
-
-            //JObject jObject = new JObject();
-            //jObject.Add(new JProperty("terminal_sn", TerminalSn));
-            //jObject.Add(new JProperty("client_sn", orderNo));
-            //jObject.Add(new JProperty("total_amount", amount.ToString()));
-            //jObject.Add(new JProperty("dynamic_id", dynamicId));
-            //jObject.Add(new JProperty("subject", subject));
-            //jObject.Add(new JProperty("operator", operatePerson));
-            //jObject.Add(new JProperty("device_id", deviceId));
-            //jObject.Add(new JProperty("description", description));
-            //jObject.Add(new JProperty("longitude", longitude));
-            //jObject.Add(new JProperty("latitude", latitude));
-            //jObject.Add(new JProperty("extended", extended));
-            //jObject.Add(new JProperty("reflect", reflect));
-            //jObject.Add(new JProperty("notify_url", notifyUrl));
-            //jObject.Add(new JProperty("payway", payWay));
-
             var data = new
             {
                 terminal_sn = TerminalSn,
@@ -95,13 +79,11 @@ namespace ShouQianBa
                 payway = payWay
             };
 
-            string param = data.ToJson(); 
+            string param = data.ToJson();
             string sign = (param + TerminalKey).ToMd5();
 
-            #endregion
-
             string resp = PostPay(param, sign);
-            return resp.ToObject<PayResponse>();
+            return resp.ToObject<SqbResponse<PayData>>();
         }
 
         /// <summary>
@@ -111,7 +93,7 @@ namespace ShouQianBa
         {
             Encoding encoding = Encoding.UTF8;
 
-            string url = "https://api.shouqianba.com/upay/v2/pay";
+            string url = domain + "upay/v2/pay";
             HttpWebRequest request = WebRequest.Create(url) as HttpWebRequest;
             request.Method = "POST";
             request.ContentType = "application/json";
@@ -127,13 +109,20 @@ namespace ShouQianBa
 
             //发送成功后接收返回的json信息
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-            Stream newStream = response.GetResponseStream();
-            StreamReader streamReader = new StreamReader(newStream, encoding);
-            return streamReader.ReadToEnd();
+            using (Stream newStream = response.GetResponseStream())
+            {
+                using (StreamReader streamReader = new StreamReader(newStream, encoding))
+                {
+                    return streamReader.ReadToEnd();
+                }
+            }
         }
     }
 
-    public class PayResponse
+    /// <summary>
+    /// 收钱吧接口响应类
+    /// </summary>
+    public class SqbResponse<T>
     {
         /// <summary>
         /// 200代表支付成功
@@ -144,10 +133,13 @@ namespace ShouQianBa
 
         public string Error_Message { get; set; }
 
-        public BizResponse Biz_Response { get; set; }
+        public BizResponse<T> Biz_Response { get; set; }
     }
 
-    public class BizResponse
+    /// <summary>
+    /// 业务响应类
+    /// </summary>
+    public class BizResponse<T>
     {
         /// <summary>
         /// 结果码 表示接口调用的业务逻辑是否成功 PAY_SUCCESS
@@ -164,9 +156,12 @@ namespace ShouQianBa
         /// </summary>
         public string Error_Message { get; set; }
 
-        public PayData Data { get; set; }
+        public T Data { get; set; }
     }
 
+    /// <summary>
+    /// 业务信息类
+    /// </summary>
     public class PayData
     {
         /// <summary>
