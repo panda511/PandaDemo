@@ -62,26 +62,29 @@ namespace Extension
 
         #region Encode
 
-        public static string ToBase64(this string value)
+        public static string ToBase64(this string value, Encoding encoding = null)
         {
-            byte[] bytes = Encoding.UTF8.GetBytes(value);
+            Encoding encoding2 = encoding ?? Encoding.UTF8;
+            byte[] bytes = encoding2.GetBytes(value);
             string result = Convert.ToBase64String(bytes);
             return result;
         }
 
-        public static string FromBase64(this string value)
+        public static string FromBase64(this string value, Encoding encoding = null)
         {
+            Encoding encoding2 = encoding ?? Encoding.UTF8;
             byte[] bytes = Convert.FromBase64String(value);
-            string result = Encoding.UTF8.GetString(bytes);
+            string result = encoding2.GetString(bytes);
             return result;
         }
 
-        public static string ToSha1(this string value)
+        public static string ToSha1(this string value, Encoding encoding = null)
         {
             string result = string.Empty;
             SHA1 sha1 = new SHA1CryptoServiceProvider();
 
-            byte[] bytes = Encoding.UTF8.GetBytes(value);
+            Encoding encoding2 = encoding ?? Encoding.UTF8;
+            byte[] bytes = encoding2.GetBytes(value);
             byte[] hash = sha1.ComputeHash(bytes);
 
             for (int i = 0; i < hash.Length; i++)
@@ -91,12 +94,13 @@ namespace Extension
             return result;
         }
 
-        public static string ToMd5(this string value)
+        public static string ToMd5(this string value, Encoding encoding = null)
         {
             string result = string.Empty;
             MD5 md5 = new MD5CryptoServiceProvider();
 
-            byte[] bytes = Encoding.UTF8.GetBytes(value);
+            Encoding encoding2 = encoding ?? Encoding.UTF8;
+            byte[] bytes = encoding2.GetBytes(value);
             byte[] hash = md5.ComputeHash(bytes);
 
             for (int i = 0; i < hash.Length; i++)
@@ -106,7 +110,7 @@ namespace Extension
 
             return result;
         }
-         
+
         #endregion
 
         #region TypeConvert
