@@ -63,7 +63,7 @@ namespace ExpressBird
             string requestType = "1007"; //请求指令类型
             string dataType = "2"; //JSON格式
 
-            string requestData = GetRequestData("");
+            string requestData = "";// GetRequestData("");
 
             //请求参数
             Dictionary<string, string> param = new Dictionary<string, string>();

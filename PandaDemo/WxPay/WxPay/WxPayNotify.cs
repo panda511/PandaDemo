@@ -7,6 +7,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace WxPay
 {
@@ -125,7 +126,7 @@ namespace WxPay
         {
             get
             {
-                return resp.GetParameter("total_fee").ToInt32();
+                return resp.GetParameter("total_fee").ToInt();
             }
         }
 
@@ -136,7 +137,7 @@ namespace WxPay
         {
             get
             {
-                return resp.GetParameter("settlement_total_fee").ToInt32();
+                return resp.GetParameter("settlement_total_fee").ToInt();
             }
         }
 
@@ -147,7 +148,7 @@ namespace WxPay
         {
             get
             {
-                return resp.GetParameter("cash_fee").ToInt32();
+                return resp.GetParameter("cash_fee").ToInt();
             }
         }
 
@@ -313,7 +314,7 @@ namespace WxPay
         {
             get
             {
-                return resp.GetParameter("coupon_count").ToInt32();
+                return resp.GetParameter("coupon_count").ToInt();
             }
         }
 
@@ -350,7 +351,7 @@ namespace WxPay
         /// </summary>
         public int GetCouponFee(int n)
         {
-            return resp.GetParameter("coupon_fee_" + n).ToInt32();
+            return resp.GetParameter("coupon_fee_" + n).ToInt();
         }
 
         #endregion
