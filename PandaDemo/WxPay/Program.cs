@@ -23,12 +23,13 @@ namespace WxPay
             string attach = "充值订单";
 
             IWxPay pay = new WxAppPay();
-            var payParam = pay.GetPayParameter(orderNo, amount, body, ip, null, attach);
+            //var payParam = pay.GetPayParameter(orderNo, amount, body, ip, null, attach);
 
-            IWxPay pay2 = new WxJsApiPay();
-            var payParam2 = pay.GetPayParameter(orderNo, amount, body, ip, openId);
+            //IWxPay pay2 = new WxJsApiPay();
+            //var payParam2 = pay.GetPayParameter(orderNo, amount, body, ip, openId);
 
-            Console.WriteLine(payParam2.ToJson());
+         
+            Console.WriteLine("");
             Console.Read();
         }
 

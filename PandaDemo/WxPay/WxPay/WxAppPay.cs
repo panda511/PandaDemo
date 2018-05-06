@@ -1,11 +1,7 @@
-﻿using Senparc.Weixin.MP;
+﻿using Extension.Extention;
+using Senparc.Weixin.MP;
 using Senparc.Weixin.MP.TenPayLibV3;
 using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace WxPay
 {
@@ -45,6 +41,7 @@ namespace WxPay
             else
             {
                 //预支付订单创建失败，记日志
+                Console.WriteLine(wxOrder.ToJson());
             }
 
             return param;
@@ -67,7 +64,7 @@ namespace WxPay
         /// <summary>
         /// 获取支付签名
         /// </summary>
-        private string GetPaySign(string prepayId, string package, string nonceStr, string timeStamp, string signType)
+        public string GetPaySign(string prepayId, string package, string nonceStr, string timeStamp, string signType)
         {
             //设置支付参数
             RequestHandler paySignReqHandler = new RequestHandler(null);
