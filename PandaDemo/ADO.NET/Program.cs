@@ -9,7 +9,7 @@ namespace ADO.NET
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main(string[] args) 
         {
             string str = @"data source=(local);database=BaseCardDB;user id=sa;password=123456;";
             using (SqlConnection connection = new SqlConnection(str))
@@ -30,4 +30,5 @@ namespace ADO.NET
             Console.ReadLine();
         }
     }
+    
 }

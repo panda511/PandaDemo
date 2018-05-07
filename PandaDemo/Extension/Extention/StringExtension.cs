@@ -163,5 +163,20 @@ namespace Extension
 
         #endregion
 
+
+        /// <summary>
+        /// 替换掉第一个匹配的字符串
+        /// </summary>
+        public static string ReplaceFirst(this string value, string oldValue, string newValue)
+        {
+            string result = value;
+            int index = value.IndexOf(oldValue);
+            if (index > -1)
+            {
+                result = value.Remove(index, oldValue.Length).Insert(index, newValue);
+            }
+            return result;
+        }
+
     }
 }

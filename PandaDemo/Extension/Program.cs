@@ -23,10 +23,15 @@ namespace Extension
             string json = jObject.ToString();
             var p = json.ToObject<Person>();
 
-            Console.WriteLine(json);
+            //Console.WriteLine(json);
+
+
+            string test = "000and1235and859and777";
+
+            Console.WriteLine(test.ReplaceFirst("and", ""));
+
 
             Console.Read();
-
         }
 
 
