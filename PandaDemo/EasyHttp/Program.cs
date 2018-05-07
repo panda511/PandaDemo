@@ -10,7 +10,7 @@ namespace EasyHttp
 {
     class Program
     {
-        static void Main2(string[] args)
+        static void Main(string[] args)
         {
             var param = new
             {
