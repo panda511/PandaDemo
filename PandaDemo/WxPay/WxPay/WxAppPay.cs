@@ -66,7 +66,7 @@ namespace WxPay
         /// <summary>
         /// 获取支付签名
         /// </summary>
-        public string GetPaySign2(string nonceStr, string package, string prepayId, string timestamp)
+        private string GetPaySign2(string nonceStr, string package, string prepayId, string timestamp)
         {
             //设置支付参数
             RequestHandler paySignReqHandler = new RequestHandler(null);

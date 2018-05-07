@@ -9,11 +9,11 @@ namespace WxPay
     /// </summary>
     public class WxJsApiPay : IWxPay
     {
-        public static readonly string AppId = "wx2428e34e0e7dc6ef";
-        public static readonly string MchId = "1233410002";
-        public static readonly string Key = "e10adc3849ba56abbe56e056f20f883e"; //支付密钥
+        public static readonly string AppId = "";
+        public static readonly string MchId = "";
+        public static readonly string Key = ""; //支付密钥
         public static readonly string NotifyUrl = "";
-        public static readonly string AppSecret = "51c56b886b5be869567dd389b3e5d1d6"; //唯一凭证密钥，仅JSAPI支付的时候需要配置，用于获取openId
+        public static readonly string AppSecret = ""; //唯一凭证密钥，仅JSAPI支付的时候需要配置，用于获取openId
 
         /// <summary>
         /// 获取支付参数
