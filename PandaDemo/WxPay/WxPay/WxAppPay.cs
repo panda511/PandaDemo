@@ -1,7 +1,9 @@
-﻿using Extension.Extention;
+﻿using Extension;
+using Extension.Extention;
 using Senparc.Weixin.MP;
 using Senparc.Weixin.MP.TenPayLibV3;
 using System;
+using System.Collections.Generic;
 
 namespace WxPay
 {
@@ -32,11 +34,11 @@ namespace WxPay
                     PartnerId = wxOrder.mch_id,
                     PrepayId = wxOrder.prepay_id,
                     NonceStr = wxOrder.nonce_str,
-                    TimeStamp = TenPayV3Util.GetTimestamp(),
+                    Timestamp = DateTime2.GetTimestamp().ToString(),
                     Package = "Sign=WXPay",
                 };
 
-                param.Sign = GetPaySign(param.PrepayId, param.Package, param.NonceStr, param.TimeStamp, param.SignType);
+                param.Sign = GetPaySign(param.NonceStr, param.Package, param.PrepayId, param.Timestamp);
             }
             else
             {
@@ -64,19 +66,31 @@ namespace WxPay
         /// <summary>
         /// 获取支付签名
         /// </summary>
-        public string GetPaySign(string prepayId, string package, string nonceStr, string timeStamp, string signType)
+        public string GetPaySign2(string nonceStr, string package, string prepayId, string timestamp)
         {
             //设置支付参数
             RequestHandler paySignReqHandler = new RequestHandler(null);
-            paySignReqHandler.SetParameter("appId", AppId);
-            paySignReqHandler.SetParameter("partnerId", MchId);
-            paySignReqHandler.SetParameter("prepayId", prepayId);
+            paySignReqHandler.SetParameter("appid", AppId);
+            paySignReqHandler.SetParameter("partnerid", MchId);
+            paySignReqHandler.SetParameter("prepayid", prepayId);
             paySignReqHandler.SetParameter("package", package);
-            paySignReqHandler.SetParameter("nonceStr", nonceStr);
-            paySignReqHandler.SetParameter("timeStamp", timeStamp);
-            paySignReqHandler.SetParameter("signType", signType);
+            paySignReqHandler.SetParameter("noncestr", nonceStr);
+            paySignReqHandler.SetParameter("timestamp", timestamp);
+            //paySignReqHandler.SetParameter("signType", signType);
             var paySign = paySignReqHandler.CreateMd5Sign("key", Key);
             return paySign;
+        }
+
+        /// <summary>
+        /// 获取支付签名
+        /// </summary>
+        public string GetPaySign(string nonceStr, string package, string prepayId, string timestamp)
+        {
+            string template = "appid={0}&noncestr={1}&package={2}&partnerid={3}&prepayid={4}&timeStamp={5}&key={6}";
+            string str = string.Format(template, AppId, nonceStr, package, MchId, prepayId, timestamp, Key);
+            string sign = str.ToMd5().ToUpper();
+
+            return sign;
         }
 
     }

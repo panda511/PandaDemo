@@ -22,14 +22,42 @@ namespace WxPay
             string openId = "openId";
             string attach = "充值订单";
 
-            IWxPay pay = new WxAppPay();
+            //IWxPay pay = new WxAppPay();
             //var payParam = pay.GetPayParameter(orderNo, amount, body, ip, null, attach);
 
             //IWxPay pay2 = new WxJsApiPay();
-            //var payParam2 = pay.GetPayParameter(orderNo, amount, body, ip, openId);
+            //var payParam2 = pay2.GetPayParameter(orderNo, amount, body, ip, openId);
 
-         
-            Console.WriteLine("");
+
+
+
+            string appId = "wx2428e34e0e7dc6ef";
+            string key = "e10adc3849ba56abbe56e056f20f883e";
+
+            string stamp = "1525663034";
+            string nonceStr = "3669A032E96C56D111292833CB51F79F";
+            string package = "prepay_id=wx1234567890";
+            string signType = "MD5";
+
+            string sign = TenPayV3.GetJsPaySign(appId, stamp, nonceStr, package, key, signType);
+            //D8B716043EC84E0503EA9D303B017336
+
+            //string sign2 = new WxJsApiPay().GetPaySign(appId, package, nonceStr, stamp, signType, key);
+
+            //Console.WriteLine(sign);
+            //Console.WriteLine(sign2);
+
+
+            string s = Guid.NewGuid().ToString();//.Replace("-", ""); 
+            string s2 = Guid.NewGuid().ToString("N");
+            string s3 = String2.GetGuid();
+
+
+
+            Console.WriteLine(s);
+            Console.WriteLine(s2);
+            Console.WriteLine(s3);
+
             Console.Read();
         }
 
@@ -102,6 +130,6 @@ namespace WxPay
         RechargeOrder
     }
 
-
+   
 
 }

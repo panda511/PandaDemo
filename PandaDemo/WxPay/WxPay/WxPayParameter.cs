@@ -39,7 +39,7 @@ namespace WxPay
         /// <summary>
         /// 时间戳
         /// </summary>
-        public string TimeStamp { get; set; }
+        public string Timestamp { get; set; }
 
         /// <summary>
         /// 签名
