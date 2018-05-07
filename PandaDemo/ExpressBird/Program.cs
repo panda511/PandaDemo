@@ -53,56 +53,45 @@ namespace ExpressBird
     }
 
 
+    /// <summary>
+    /// 快递鸟处理类
+    /// </summary>
     public class KuaiDiNiao
     {
         public static readonly string EBusinessID = ""; //电商ID
         public static readonly string AppKey = "";      //电商加密私钥
 
-        public EOrderResponse GetEOrder()
+        private string domain = "http://api.kdniao.cc/api/";
+
+        /// <summary>
+        /// 获取电子面单
+        /// </summary>
+        /// <param name="orderCode">订单编号</param>
+        /// <param name="cost">寄件费（运费）</param>
+        /// <param name="shipperCode">快递公司编码</param>
+        /// <param name="customerName">电子面单客户账号（与快递网点申请）</param>
+        /// <param name="customerPwd">电子面单密码</param>
+        /// <param name="sendSite">收件网点标识</param>
+        /// <param name="monthCode">月结编码</param>
+        /// <param name="otherCost">其他费用</param>
+        public EOrderResponse GetEOrder(string orderCode, decimal cost, string shipperCode, string customerName, string customerPwd, string sendSite, string monthCode, decimal otherCost = 0)
         {
-            string requestType = "1007"; //请求指令类型
-            string dataType = "2"; //JSON格式
+            #region data
 
-            string requestData = GetRequestData("");
-
-            //请求参数
-            Dictionary<string, string> param = new Dictionary<string, string>();
-            param.Add("EBusinessID", EBusinessID);
-            param.Add("RequestType", requestType);
-            param.Add("DataType", dataType);
-
-            param.Add("RequestData", HttpUtility.UrlEncode(requestData, Encoding.UTF8));
-
-            string dataSign = (requestData + AppKey).ToMd5().ToBase64();
-            param.Add("DataSign", HttpUtility.UrlEncode(dataSign, Encoding.UTF8));
-
-            string result = PostEOrderService(param);
-            return result.ToObject<EOrderResponse>();
-        }
-
-
-        string GetRequestData(string orderCode, decimal cost, string shipperCode, string customerName, string customerPwd, string sendSite, string monthCode, decimal otherCost=0)
-        {
-            var RequestData = new
+            var data = new
             {
                 CallBack = "", //用户自定义回调信息
                 MemberID = "", //会员标识
-
+                ThrOrderCode = "", //第三方订单编号
 
                 CustomerName = customerName, //电子面单客户账号（与快递网点申请）
                 CustomerPwd = customerPwd, //电子面单密码
                 SendSite = sendSite, //收件网点标识
-
+                MonthCode = monthCode,//月结编码
 
                 ShipperCode = shipperCode, //快递公司编码
                 LogisticCode = "", //快递单号
-
-
                 OrderCode = orderCode, //订单编号
-                ThrOrderCode = "", //第三方订单编号
-
-                MonthCode = monthCode,//月结编码
-
 
                 PayType = 1, //邮费支付方式:1-现付，2-到付，3-月结，4-第三方支付
                 ExpType = 1,//快递类型：1-标准快件
@@ -111,7 +100,7 @@ namespace ExpressBird
                 Cost = cost, //寄件费（运费）
                 OtherCost = otherCost, //其他费用
 
-                //发件人信息
+                #region 发件人信息
                 Sender = new
                 {
                     Company = "", //发件人公司
@@ -123,8 +112,9 @@ namespace ExpressBird
                     ExpAreaName = "姑苏区",
                     Address = "人民路12号"
                 },
+                #endregion
 
-                //收件人信息
+                #region 收件人信息
                 Receiver = new
                 {
                     Company = "", //收件人公司
@@ -136,23 +126,26 @@ namespace ExpressBird
                     ExpAreaName = "姑苏区",
                     Address = "人民路12号"
                 },
+                #endregion
 
-                StartDate = "yyyy-MM-dd HH:mm:ss", //上门取货时间段 开始
-                EndDate = "yyyy-MM-dd HH:mm:ss", //上门取货时间段 结束
+                StartDate = "", //上门取货时间段 开始 yyyy-MM-dd HH:mm:ss
+                EndDate = "", //上门取货时间段 结束 yyyy-MM-dd HH:mm:ss
 
                 Weight = 65.24, //物品总重量kg
                 Quantity = 1, //件数/包裹数
                 Volume = 6.98, //物品总体积m3
                 Remark = "小心轻放",
 
+                #region 增值服务
                 AddService = new
                 {
                     Name = "", //增值服务名称
                     Value = "", //增值服务值
                     CustomerID = "" //客户标识（选填）
                 },
+                #endregion
 
-                //物品
+                #region 物品信息
                 Commodity = new List<object>() {
                     new {
                         GoodsName="", //商品名称
@@ -173,20 +166,35 @@ namespace ExpressBird
                         GoodsVol=54.32, //商品体积m3
                     }
                 },
+                #endregion
 
                 IsReturnPrintTemplate = 1, //返回电子面单模板：0-不需要；1-需要
                 IsSendMessage = 0, //是否订阅短信：0-不需要；1-需要
                 TemplateSize = "", //模板规格(默认的模板无需传值，非默认模板传对应模板尺寸)
             };
 
-            return RequestData.ToJson();
+            #endregion
+
+            string param = data.ToJson();
+            string sign = (param + AppKey).ToMd5().ToBase64();
+
+            //请求参数
+            Dictionary<string, string> dict = new Dictionary<string, string>
+            {
+                { "EBusinessID", EBusinessID },
+                { "RequestType", "1007" }, //请求指令类型
+                { "DataType", "2" }, //JSON格式
+                { "RequestData", HttpUtility.UrlEncode(param, Encoding.UTF8) },
+                { "DataSign", HttpUtility.UrlEncode(sign, Encoding.UTF8)}
+            };
+
+            string result = PostEOrderService(dict);
+            return result.ToObject<EOrderResponse>();
         }
 
-
-
-       /// <summary>
-       /// 请求电子面单接口
-       /// </summary>
+        /// <summary>
+        /// 请求电子面单接口
+        /// </summary>
         private string PostEOrderService(Dictionary<string, string> param)
         {
             string result = string.Empty; ;
@@ -208,8 +216,7 @@ namespace ExpressBird
 
             byte[] byteData = Encoding.UTF8.GetBytes(postData.ToString());
 
-            string url = "http://api.kdniao.cc/api/Eorderservice";
-            //url = "http://sandboxapi.kdniao.cc:8080/kdniaosandbox/gateway/exterfaceInvoke.json";
+            string url = domain + "Eorderservice";  //http://sandboxapi.kdniao.cc:8080/kdniaosandbox/gateway/exterfaceInvoke.json
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
             request.ContentType = "application/x-www-form-urlencoded";
             request.Referer = url;
