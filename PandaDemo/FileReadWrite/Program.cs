@@ -11,24 +11,30 @@ namespace FileReadWrite
     {
         static void Main(string[] args)
         {
-            StreamReader sr = new StreamReader(@"E:\ff.txt");
-            string line = string.Empty;
-            while ((line = sr.ReadLine()) != null)
+            using (StreamReader sr = new StreamReader(@"E:\ff.txt"))
             {
-                Console.WriteLine(line);
+                string line = string.Empty;
+                while ((line = sr.ReadLine()) != null)
+                {
+                    Console.WriteLine(line);
+                }
             }
         }
 
         private static void Write(string message)
         {
             string filePath = "shipping_" + DateTime.Now.ToString("yyyy_MM_dd") + ".txt";
-            FileStream fileStream = new FileStream(filePath, FileMode.Append);
-            StreamWriter streamWriter = new StreamWriter(fileStream, Encoding.Default);
+            using (FileStream fileStream = new FileStream(filePath, FileMode.Append))
+            {
+                using (StreamWriter streamWriter = new StreamWriter(fileStream, Encoding.UTF8))
+                {
+                    streamWriter.WriteLine(message);
+                    streamWriter.Close();
+                }
+                fileStream.Close();
+            }
 
-            streamWriter.WriteLine(message);
 
-            streamWriter.Close();
-            fileStream.Close();
         }
     }
 }
