@@ -102,7 +102,7 @@ namespace WxPay
             var http = new HttpClient();
             string url = Domain + "pay/unifiedorder";
             var resp = http.Post(url, param, HttpContentTypes.ApplicationXml);
-            string str = resp.RawText;
+            string result = resp.RawText;
         }
 
 
