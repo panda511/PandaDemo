@@ -54,7 +54,7 @@ namespace WxPay
         /// </summary>
         private UnifiedorderResult CreatePrePayOrder(string orderNo, int amount, string body, string ip, string openId, string attach)
         {
-            string nonceStr = TenPayV3Util.GetNoncestr();
+            string nonceStr = String2.GetGuid();
             var payType = TenPayV3Type.APP;
 
             var param = new TenPayV3UnifiedorderRequestData(AppId, MchId, body, orderNo, amount, ip, NotifyUrl, payType, openId, Key, nonceStr);
