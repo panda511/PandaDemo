@@ -31,6 +31,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EasyHttp, Version=1.7.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\EasyHttp.1.7.0\lib\net40\EasyHttp.dll</HintPath>
+    </Reference>
+    <Reference Include="JsonFx, Version=2.0.1209.2802, Culture=neutral, PublicKeyToken=315052dd637f8a52, processorArchitecture=MSIL">
+      <HintPath>..\packages\JsonFx.2.0.1209.2802\lib\net40\JsonFx.dll</HintPath>
+    </Reference>
     <Reference Include="Senparc.Weixin, Version=4.20.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Senparc.Weixin.4.20.2\lib\net45\Senparc.Weixin.dll</HintPath>
     </Reference>

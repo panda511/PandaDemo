@@ -86,10 +86,9 @@ namespace WxPay
         /// </summary>
         public string GetPaySign(string nonceStr, string package, string prepayId, string timestamp)
         {
-            string template = "appid={0}&noncestr={1}&package={2}&partnerid={3}&prepayid={4}&timeStamp={5}&key={6}";
-            string str = string.Format(template, AppId, nonceStr, package, MchId, prepayId, timestamp, Key);
+            string param = "appid={0}&noncestr={1}&package={2}&partnerid={3}&prepayid={4}&timeStamp={5}&key={6}";
+            string str = string.Format(param, AppId, nonceStr, package, MchId, prepayId, timestamp, Key);
             string sign = str.ToMd5().ToUpper();
-
             return sign;
         }
 
