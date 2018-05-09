@@ -382,7 +382,7 @@ namespace AliPay
         {
             get
             {
-                return request.Form["passback_params"];
+                return HttpUtility.UrlDecode(request.Form["passback_params"]);
             }
         }
 

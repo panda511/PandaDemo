@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace AliPay
 {
@@ -71,7 +72,7 @@ namespace AliPay
                 Subject = subject,
                 Body = body,
                 ProductCode = ProductCode,
-                PassbackParams = passbackParams
+                PassbackParams = HttpUtility.UrlEncode(passbackParams)
             };
 
             //实例化具体API对应的request类,类名称和接口名称对应,当前调用接口名称如：alipay.trade.app.pay
@@ -99,7 +100,7 @@ namespace AliPay
                 OutTradeNo = orderNo,
                 ProductCode = ProductCode,
                 QuitUrl = QuitUrl,
-                PassbackParams = passbackParams
+                PassbackParams = HttpUtility.UrlEncode(passbackParams)
             };
 
             AlipayTradeWapPayRequest request = new AlipayTradeWapPayRequest();
