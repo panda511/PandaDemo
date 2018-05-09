@@ -54,6 +54,99 @@ namespace ExpressBird
 
 
     /// <summary>
+    /// 电子面单寄(收)件人
+    /// </summary>
+    public class EOrderPerson
+    {
+        /// <summary>
+        /// 寄(收)件人公司
+        /// </summary>
+        public string Company { get; set; }
+
+        /// <summary>
+        /// 寄(收)件人姓名
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
+        /// 寄(收)件人手机
+        /// </summary>
+        public string Mobile { get; set; }
+
+        /// <summary>
+        /// 寄(收)件人电话
+        /// </summary>
+        public string Tel { get; set; }
+
+        /// <summary>
+        /// 邮编
+        /// </summary>
+        public string PostCode { get; set; }
+
+        /// <summary>
+        /// 省
+        /// </summary>
+        public string ProvinceName { get; set; }
+
+        /// <summary>
+        /// 市
+        /// </summary>
+        public string CityName { get; set; }
+
+        /// <summary>
+        /// 区
+        /// </summary>
+        public string ExpAreaName { get; set; }
+
+        /// <summary>
+        /// 详细地址
+        /// </summary>
+        public string Address { get; set; }
+    }
+
+    /// <summary>
+    /// 电子面单物品
+    /// </summary>
+    public class EOrderCommodity
+    {
+        /// <summary>
+        /// 商品名称
+        /// </summary>
+        public string GoodsName { get; set; }
+
+        /// <summary>
+        /// 商品编码
+        /// </summary>
+        public string GoodsCode { get; set; }
+
+        /// <summary>
+        /// 商品数量
+        /// </summary>
+        public int Goodsquantity { get; set; }
+
+        /// <summary>
+        /// 商品价格
+        /// </summary>
+        public decimal GoodsPrice { get; set; }
+
+        /// <summary>
+        /// 商品重量kg
+        /// </summary>
+        public decimal GoodsWeight { get; set; }
+
+        /// <summary>
+        /// 商品描述
+        /// </summary>
+        public string GoodsDesc { get; set; }
+
+        /// <summary>
+        /// 商品体积m3
+        /// </summary>
+        public decimal GoodsVol { get; set; }
+    }
+
+
+    /// <summary>
     /// 快递鸟处理类
     /// </summary>
     public class KuaiDiNiao
@@ -74,106 +167,94 @@ namespace ExpressBird
         /// <param name="sendSite">收件网点标识</param>
         /// <param name="monthCode">月结编码</param>
         /// <param name="otherCost">其他费用</param>
-        public EOrderResponse GetEOrder(string orderCode, decimal cost, string shipperCode, string customerName, string customerPwd, string sendSite, string monthCode, decimal otherCost = 0)
+        public EOrderResponse GetEOrder(string orderCode, string shipperCode, string customerName, string customerPwd, string sendSite, string monthCode, int payType, EOrderPerson sender, EOrderPerson receiver, List<EOrderCommodity> commodityList, decimal cost = 0, decimal otherCost = 0, string logisticCode = "", int expType = 1, int isNotice = 1, string callBack = "", string thrOrderCode = "", decimal weight = 0, int quantity = 0, decimal volume = 0, string remark = "", int isReturnPrintTemplate = 0, int isSendMessage = 0, string templateSize = "", string operateRequire = "")
         {
-            #region data
-
             var data = new
             {
-                CallBack = "", //用户自定义回调信息
-                MemberID = "", //会员标识
-                ThrOrderCode = "", //第三方订单编号
+                #region 必传参数
 
+                MemberID = EBusinessID, //会员标识
                 CustomerName = customerName, //电子面单客户账号（与快递网点申请）
                 CustomerPwd = customerPwd, //电子面单密码
                 SendSite = sendSite, //收件网点标识
                 MonthCode = monthCode,//月结编码
-
                 ShipperCode = shipperCode, //快递公司编码
-                LogisticCode = "", //快递单号
                 OrderCode = orderCode, //订单编号
+                PayType = payType, //运费支付方式:1-现付，2-到付，3-月结，4-第三方支付
 
-                PayType = 1, //邮费支付方式:1-现付，2-到付，3-月结，4-第三方支付
-                ExpType = 1,//快递类型：1-标准快件
-                IsNotice = 1, //是否通知快递员上门揽件：0-通知；1-不通知；不填则默认为1
-
-                Cost = cost, //寄件费（运费）
-                OtherCost = otherCost, //其他费用
+                Commodity = commodityList, //物品信息
 
                 #region 发件人信息
                 Sender = new
                 {
-                    Company = "", //发件人公司
-                    Name = "", //发件人
-                    Mobile = "",
-                    PostCode = "",//发件人邮编
-                    ProvinceName = "江苏省",
-                    CityName = "苏州市",
-                    ExpAreaName = "姑苏区",
-                    Address = "人民路12号"
+                    sender.Company,
+                    sender.Name,
+                    sender.Mobile,
+                    sender.PostCode,
+                    sender.ProvinceName,
+                    sender.CityName,
+                    sender.ExpAreaName,
+                    sender.Address
                 },
                 #endregion
 
                 #region 收件人信息
                 Receiver = new
                 {
-                    Company = "", //收件人公司
-                    Name = "", //收件人
-                    Mobile = "",
-                    PostCode = "",//发件人邮编
-                    ProvinceName = "江苏省",
-                    CityName = "苏州市",
-                    ExpAreaName = "姑苏区",
-                    Address = "人民路12号"
+                    receiver.Company,
+                    receiver.Name,
+                    receiver.Mobile,
+                    receiver.PostCode,
+                    receiver.ProvinceName,
+                    receiver.CityName,
+                    receiver.ExpAreaName,
+                    receiver.Address
                 },
                 #endregion
 
-                StartDate = "", //上门取货时间段 开始 yyyy-MM-dd HH:mm:ss
-                EndDate = "", //上门取货时间段 结束 yyyy-MM-dd HH:mm:ss
+                #endregion
 
-                Weight = 65.24, //物品总重量kg
-                Quantity = 1, //件数/包裹数
-                Volume = 6.98, //物品总体积m3
-                Remark = "小心轻放",
+                #region 选传参数
+
+                Cost = cost, //寄件费（运费）
+                OtherCost = otherCost, //其他费用
+                LogisticCode = logisticCode, //快递单号
+                ExpType = expType,//快递类型：1-标准快件
+                IsNotice = isNotice, //是否通知快递员上门揽件：0-通知；1-不通知；不填则默认为1
+                CallBack = callBack, //用户自定义回调信息
+                ThrOrderCode = thrOrderCode, //第三方订单号 (ShipperCode 为 JD 且 ExpType 为 1 时必填) 
+                Weight = weight, //包裹总重量 kg 
+                Quantity = quantity, //包裹数，一个包裹对应一个 运单号，如果是大于 1 个包 裹，返回则按照子母件的方 式返回母运单号和子运单号 
+                Volume = volume, //包裹总体积 m3 
+                Remark = remark,
+                IsReturnPrintTemplate = isReturnPrintTemplate, //返回电子面单模板：0-不需要；1-需要
+                IsSendMessage = isSendMessage, //是否订阅短信：0-不需要；1-需要
+                TemplateSize = templateSize, //模板规格(默认的模板无需传值，非默认模板传对应模板尺寸)
+                OperateRequire = operateRequire //操作要求(如：签名、盖章、 身份证复印件等) 
+
+                //StartDate = "", //上门取货时间段 开始 yyyy-MM-dd HH:mm:ss
+                //EndDate = "", //上门取货时间段 结束 yyyy-MM-dd HH:mm:ss
 
                 #region 增值服务
-                AddService = new
-                {
-                    Name = "", //增值服务名称
-                    Value = "", //增值服务值
-                    CustomerID = "" //客户标识（选填）
-                },
+                //AddService = new List<object>
+                //{
+                //    new
+                //    {
+                //        Name = "", //增值服务名称
+                //        Value = "", //增值服务值
+                //        CustomerID = "" //客户标识（选填）
+                //    },
+                //    new
+                //    {
+                //       Name = "", //增值服务名称
+                //       Value = "", //增值服务值
+                //       CustomerID = "" //客户标识（选填）
+                //    }
+                //},
                 #endregion
 
-                #region 物品信息
-                Commodity = new List<object>() {
-                    new {
-                        GoodsName="", //商品名称
-                        GoodsCode="", //商品编码
-                        Goodsquantity=1, //商品数量
-                        GoodsPrice=21.28, //商品价格
-                        GoodsWeight=1.36, //商品重量kg
-                        GoodsDesc="", //商品描述
-                        GoodsVol=54.32, //商品体积m3
-                    },
-                     new {
-                        GoodsName="", //商品名称
-                        GoodsCode="", //商品编码
-                        Goodsquantity=1, //商品数量
-                        GoodsPrice=21.28, //商品价格
-                        GoodsWeight=1.36, //商品重量kg
-                        GoodsDesc="", //商品描述
-                        GoodsVol=54.32, //商品体积m3
-                    }
-                },
                 #endregion
-
-                IsReturnPrintTemplate = 1, //返回电子面单模板：0-不需要；1-需要
-                IsSendMessage = 0, //是否订阅短信：0-不需要；1-需要
-                TemplateSize = "", //模板规格(默认的模板无需传值，非默认模板传对应模板尺寸)
             };
-
-            #endregion
 
             string param = data.ToJson();
             string sign = (param + AppKey).ToMd5().ToBase64();
@@ -216,9 +297,11 @@ namespace ExpressBird
 
             byte[] byteData = Encoding.UTF8.GetBytes(postData.ToString());
 
-            string url = domain + "Eorderservice";  //http://sandboxapi.kdniao.cc:8080/kdniaosandbox/gateway/exterfaceInvoke.json
+            string url = domain + "Eorderservice";
+            url = "http://sandboxapi.kdniao.cc:8080/kdniaosandbox/gateway/exterfaceInvoke.json"; //测试地址
+
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-            request.ContentType = "application/x-www-form-urlencoded";
+            request.ContentType = "application/x-www-form-urlencoded;charset=utf-8";
             request.Referer = url;
             request.Accept = "*/*";
             request.Timeout = 30 * 1000;
