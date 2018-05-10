@@ -1,4 +1,5 @@
-﻿using EasyHttp.Http;
+﻿using System;
+using EasyHttp.Http;
 using Extension;
 using Senparc.Weixin.MP;
 using Senparc.Weixin.MP.TenPayLibV3;
@@ -103,6 +104,29 @@ namespace WxPay
             string url = Domain + "pay/unifiedorder";
             var resp = http.Post(url, param, HttpContentTypes.ApplicationXml);
             string result = resp.RawText;
+        }
+
+
+        /// <summary>
+        /// 创建微信预支付交易单 native
+        /// </summary>
+        private string GetCodeUrl(string orderNo, int amount, string body, string ip, string productId, string attach)
+        {
+            string url = string.Empty;
+
+            string nonceStr = String2.GetGuid();
+            var payType = TenPayV3Type.NATIVE;
+
+            var param = new TenPayV3UnifiedorderRequestData(AppId, MchId, body, orderNo, amount, ip, NotifyUrl, payType, null, Key, nonceStr, productId: productId);
+            param.Attach = attach;
+            var preOrder = TenPayV3.Unifiedorder(param);
+
+            if (preOrder.IsReturnCodeSuccess() && preOrder.IsResultCodeSuccess())
+            {
+                url = preOrder.code_url;
+            }
+
+            return url;
         }
 
 
