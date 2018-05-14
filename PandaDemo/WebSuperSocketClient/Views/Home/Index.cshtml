@@ -1,0 +1,39 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    <input type="button" id="send" onclick="send()" value="发送">
+    <input type="text" id="message">
+
+    <script type="text/javascript">
+        var wsClient = new WebSocket('ws://localhost:4141');
+
+        wsClient.onopen = function (e) {
+            console.log("连接服务器成功!");
+        }
+        wsClient.onclose = function (e) {
+            console.log("与服务器断开连接!");
+        }
+        wsClient.onmessage = function (e) {
+            console.log("接收消息:" + e.data);
+        }
+        wsClient.onerror = function (e) {
+            console.log('数据传输发生错误' + e.data);
+        }
+        function send() {
+            var txt = document.getElementById("message");
+            wsClient.send(txt.value);
+        }
+    </script>
+
+</body>
+</html>
