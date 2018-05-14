@@ -35,6 +35,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShouQianBa", "ShouQianBa\Sh
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Http", "Http\Http.csproj", "{2D7C3E7A-F4EC-48E6-93EC-B57AD1199358}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebSuperSocketServer", "WebSuperSocketServer\WebSuperSocketServer.csproj", "{CE413658-053A-4D86-8859-61C0BE1135C1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -105,6 +107,10 @@ Global
 		{2D7C3E7A-F4EC-48E6-93EC-B57AD1199358}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2D7C3E7A-F4EC-48E6-93EC-B57AD1199358}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2D7C3E7A-F4EC-48E6-93EC-B57AD1199358}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE413658-053A-4D86-8859-61C0BE1135C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE413658-053A-4D86-8859-61C0BE1135C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE413658-053A-4D86-8859-61C0BE1135C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE413658-053A-4D86-8859-61C0BE1135C1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
