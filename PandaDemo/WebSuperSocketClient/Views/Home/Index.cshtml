@@ -15,13 +15,15 @@
     <input type="text" id="message">
 
     <script type="text/javascript">
-        var wsClient = new WebSocket('ws://localhost:4141');
+        var wsClient = new WebSocket('ws://localhost:2012?token=abcdefg&userId=9630');
 
         wsClient.onopen = function (e) {
             console.log("连接服务器成功!");
+            console.log(e);
         }
         wsClient.onclose = function (e) {
             console.log("与服务器断开连接!");
+            console.log(e);
         }
         wsClient.onmessage = function (e) {
             console.log("接收消息:" + e.data);
