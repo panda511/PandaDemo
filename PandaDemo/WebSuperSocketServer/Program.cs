@@ -37,7 +37,7 @@ namespace WebSuperSocketServer
 
     class Program
     {
-        static void Main999(string[] args)
+        static void Main(string[] args)
         {
             var server = new MyWebSocketServer();
 
