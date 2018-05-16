@@ -37,10 +37,6 @@ namespace WebSuperSocketServer
 
 
 
-
-
-
-
     /// <summary>
     /// 身份认证过滤器
     /// </summary>
@@ -80,9 +76,6 @@ namespace WebSuperSocketServer
         }
     }
 
-
-
-  
 
 
     class Program
@@ -169,11 +162,17 @@ namespace WebSuperSocketServer
 
         public static void ServerNewSessionConnected(MyWebSocketSession session)
         {
-            //Console.WriteLine("有新的连接:" + (i++));
+            Console.WriteLine(string.Format("-------新的连接{0}:", i++) + session.Host + session.Path);
 
-            //Console.WriteLine(session.Host);
-            //Console.WriteLine(session.Path);
-            Console.WriteLine("-------新的连接:" + session.Host + session.Path);
+            Console.WriteLine("Host:" + session.Host + ";");//服务器的ip
+            Console.WriteLine("Uri:" + session.UriScheme + ";");
+            Console.WriteLine("Path:" + session.Path + ";");
+            Console.WriteLine("CurrentToken:" + session.CurrentToken + ";");
+            Console.WriteLine("SessionID:" + session.SessionID + ";");
+            Console.WriteLine("Connection:" + session.Connection + ";");
+            Console.WriteLine("Origin:" + session.Origin + ";");
+            Console.WriteLine("LocalEndPoint:" + session.LocalEndPoint + ";");
+            Console.WriteLine("RemoteEndPoint:" + session.RemoteEndPoint);
 
             string name = "";
             string password = "";
@@ -230,12 +229,10 @@ namespace WebSuperSocketServer
             session.MyCustomerId = value;
         }
 
-
         private static void ServerSessionClosed(MyWebSocketSession session, CloseReason value)
         {
             Console.WriteLine("有断开的连接:" + value.ToString() + "     " + session.MyCustomerId);
         }
-
     }
 
     class MyWebSocketSession : WebSocketSession<MyWebSocketSession>
@@ -245,8 +242,7 @@ namespace WebSuperSocketServer
         protected override void OnSessionStarted()
         {
             Console.WriteLine("-------SessionStarted:" + this.UriScheme);
-            this.CloseWithHandshake(403, "a非法身份c");
-            //this.ses
+            //this.CloseWithHandshake(403, "a非法身份c");
         }
 
         protected override void OnSessionClosed(CloseReason reason)
