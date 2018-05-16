@@ -78,8 +78,7 @@ namespace EasyHttp
             };
          
             string url = "http://api.leqin-gf.com/api/Distribution/GetCategory";
-            var response = http.Post(url, param);
-            response = http.Post(url, param, HttpContentTypes.ApplicationXml);
+            var response = http.Post(url, param, HttpContentTypes.ApplicationJson);
 
             //var result = response.DynamicBody;
             //Console.WriteLine(result.msg);

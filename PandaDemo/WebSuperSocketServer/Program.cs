@@ -8,11 +8,39 @@ using System.Threading.Tasks;
 using SuperSocket.Common;
 using SuperSocket.SocketBase;
 using SuperSocket.SocketBase.Config;
+using SuperSocket.SocketBase.Metadata;
 using SuperSocket.SocketEngine;
 using SuperSocket.WebSocket;
 
 namespace WebSuperSocketServer
 {
+    public class LogTimeCommandFilter : CommandFilterAttribute
+    {
+        public override void OnCommandExecuting(CommandExecutingContext commandContext)
+        {
+            commandContext.Session.Items["StartTime"] = DateTime.Now;
+        }
+
+        public override void OnCommandExecuted(CommandExecutingContext commandContext)
+        {
+            var session = commandContext.Session;
+            var startTime = session.Items.GetValue<DateTime>("StartTime");
+            var ts = DateTime.Now.Subtract(startTime);
+
+            if (ts.TotalSeconds > 5 && session.Logger.IsInfoEnabled)
+            {
+                session.Logger.InfoFormat("A command '{0}' took {1} seconds!", commandContext.CurrentCommand.Name, ts.ToString());
+            }
+        }
+    }
+
+
+
+
+
+
+
+
     /// <summary>
     /// 身份认证过滤器
     /// </summary>
@@ -29,17 +57,19 @@ namespace WebSuperSocketServer
             Name = name;
             se = appServer;
 
-            Console.WriteLine(appServer.SessionCount + "^^^^^^^^^^^^^^^");
+            //Console.WriteLine(appServer.SessionCount + "^^^^^^^^^^^^^^^");
 
             return true;
         }
 
         public bool AllowConnect(IPEndPoint remoteAddress)
         {
-            Console.WriteLine("*******************");
-            Console.WriteLine(remoteAddress.Address.AddressFamily);
-            Console.WriteLine("*******************");
-            Console.WriteLine(Name);
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine("**********AuthorizeFilter:" + remoteAddress);
+            //Console.WriteLine(remoteAddress);
+            //Console.WriteLine("*******************");
+            //Console.WriteLine(Name);
 
             //SuperSocket.SocketBase.i
 
@@ -50,13 +80,21 @@ namespace WebSuperSocketServer
         }
     }
 
+
+
+  
+
+
     class Program
     {
+        static int i = 1;
+
         static void Main(string[] args)
         {
-            var server = new MyWebSocketServer();
+            var server = new MyWebSocketServer(); 
 
             server.NewSessionConnected += ServerNewSessionConnected;
+            //server.NewSessionConnected += new SessionHandler<MyWebSocketSession>(ServerNewSessionConnected);
             server.NewMessageReceived += ServerNewMessageRecevied;
             server.SessionClosed += ServerSessionClosed;
 
@@ -101,7 +139,7 @@ namespace WebSuperSocketServer
 
                 var serverConfig = new ServerConfig
                 {
-                    Ip = "127.0.0.1",
+                    Ip = "192.168.1.73",
                     Port = 2012,
                     Name = "DyWebSocketServer8",
                     //Listeners = list,
@@ -128,17 +166,14 @@ namespace WebSuperSocketServer
             server.Stop();
         }
 
-        static int i = 1;
 
         public static void ServerNewSessionConnected(MyWebSocketSession session)
         {
-            //发起一个连接之前验证
-
             //Console.WriteLine("有新的连接:" + (i++));
 
             //Console.WriteLine(session.Host);
             //Console.WriteLine(session.Path);
-            //Console.WriteLine("--------------------------");
+            Console.WriteLine("-------新的连接:" + session.Host + session.Path);
 
             string name = "";
             string password = "";
@@ -206,10 +241,36 @@ namespace WebSuperSocketServer
     class MyWebSocketSession : WebSocketSession<MyWebSocketSession>
     {
         public string MyCustomerId { get; internal set; }
+
+        protected override void OnSessionStarted()
+        {
+            Console.WriteLine("-------SessionStarted:" + this.UriScheme);
+            this.CloseWithHandshake(403, "a非法身份c");
+            //this.ses
+        }
+
+        protected override void OnSessionClosed(CloseReason reason)
+        {
+            //add your business operations
+        }
     }
 
     class MyWebSocketServer : WebSocketServer<MyWebSocketSession>
     {
+        protected override bool Setup(IRootConfig rootConfig, IServerConfig config)
+        {
+            return base.Setup(rootConfig, config);
+        }
+
+        protected override void OnStarted()
+        {
+            base.OnStarted();
+        }
+
+        protected override void OnStopped()
+        {
+            base.OnStopped();
+        }
 
     }
 }
