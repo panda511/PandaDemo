@@ -22,15 +22,30 @@ namespace WebSuperSocketServer
 
         public string Name { get; private set; }
 
+        private IAppServer se = null;
+
         public bool Initialize(string name, IAppServer appServer)
         {
             Name = name;
+            se = appServer;
+
+            Console.WriteLine(appServer.SessionCount + "^^^^^^^^^^^^^^^");
 
             return true;
         }
 
         public bool AllowConnect(IPEndPoint remoteAddress)
         {
+            Console.WriteLine("*******************");
+            Console.WriteLine(remoteAddress.Address.AddressFamily);
+            Console.WriteLine("*******************");
+            Console.WriteLine(Name);
+
+            //SuperSocket.SocketBase.i
+
+            var ee = se;
+
+            IsAuthenticated = true;
             return IsAuthenticated;
         }
     }
@@ -93,7 +108,12 @@ namespace WebSuperSocketServer
                     MaxConnectionNumber = 311 //最大连接数，默认100
                 };
 
-                var filters = new List<AuthorizeFilter>() { new AuthorizeFilter() };
+
+                var filter = new AuthorizeFilter();
+                filter.Initialize("DyWebSocketServer8", server);
+                //filter.AllowConnect()
+
+                var filters = new List<AuthorizeFilter>() { filter };
 
                 bool s1 = server.Setup(serverConfig, connectionFilters: filters);
                 bool s2 = server.Start(); //启动侦听
@@ -114,11 +134,11 @@ namespace WebSuperSocketServer
         {
             //发起一个连接之前验证
 
-            Console.WriteLine("有新的连接:" + (i++));
+            //Console.WriteLine("有新的连接:" + (i++));
 
-            Console.WriteLine(session.Host);
-            Console.WriteLine(session.Path);
-            Console.WriteLine("--------------------------");
+            //Console.WriteLine(session.Host);
+            //Console.WriteLine(session.Path);
+            //Console.WriteLine("--------------------------");
 
             string name = "";
             string password = "";
