@@ -209,19 +209,6 @@ namespace AliPay
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
         /// <summary>
         /// 退款
         /// </summary>
@@ -252,8 +239,6 @@ namespace AliPay
 
             return success;
         }
-
-
 
 
         /// <summary>
@@ -346,12 +331,6 @@ namespace AliPay
 
             return url;
         }
-
-
-
-
-
-
 
     }
 }

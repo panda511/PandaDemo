@@ -32,7 +32,7 @@ namespace AliPay
             if (notify.IsSafe)
             {
                 //交易支付成功
-                if (notify.TradeStatus == AliPayTradeStatus.TRADE_SUCCESS.ToString() || notify.TradeStatus == AliPayTradeStatus.TRADE_FINISHED.ToString())
+                if (notify.TradeStatus == AliPayTradeStatus.TRADE_SUCCESS.ToString())
                 {
                     if (notify.PassbackParams == PayOrderType.RechargeOrder.ToString())
                     {
