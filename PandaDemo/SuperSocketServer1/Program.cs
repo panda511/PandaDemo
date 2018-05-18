@@ -42,13 +42,14 @@ namespace SuperSocketServer1
 
         static void Main(string[] args)
         {
-            var appServer = new AppServer();
+            var appServer = new MyAppServer(); 
 
             var serverConfig = new ServerConfig
             {
                 Ip = "192.168.1.73",
                 Port = 2012,
                 Name = "DyWebSocketServer8",
+                TextEncoding = "UTF-8",
                 //Listeners = list,
                 MaxConnectionNumber = 50000 //最大连接数，默认100
             };
@@ -72,13 +73,13 @@ namespace SuperSocketServer1
             Console.WriteLine("The server started successfully, press key 'q' to stop it!");
 
             //新的连接
-            appServer.NewSessionConnected += new SessionHandler<AppSession>(AppServer_NewSessionConnected);
+            appServer.NewSessionConnected += new SessionHandler<MyAppSession>(AppServer_NewSessionConnected);
 
             //断开连接
-            appServer.SessionClosed += new SessionHandler<AppSession, CloseReason>(AppServer_SessionClosed);
+            appServer.SessionClosed += new SessionHandler<MyAppSession, CloseReason>(AppServer_SessionClosed);
 
             //新的请求
-            appServer.NewRequestReceived += new RequestHandler<AppSession, StringRequestInfo>(AppServer_NewRequestReceived);
+            appServer.NewRequestReceived += new RequestHandler<MyAppSession, StringRequestInfo>(AppServer_NewRequestReceived);
 
 
             Timer timer = new Timer((data) =>
@@ -89,13 +90,11 @@ namespace SuperSocketServer1
                 {
                     foreach (var session in sessions)
                     {
-                        session.Send("广播消息测试" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                       //session.Send("测试test msg--" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                     }
                 }
 
             }, null, 10000, 10000);
-
-
 
 
             while (Console.ReadKey().KeyChar != 'q')
@@ -111,21 +110,21 @@ namespace SuperSocketServer1
             Console.ReadKey();
         }
 
-        static void AppServer_NewSessionConnected(AppSession session)
+        static void AppServer_NewSessionConnected(MyAppSession session)
         {
-            session.Send("Welcome to SuperSocket Server");
+            session.Send("已连接上Socket服务器");
             Console.WriteLine("发现一个新的客户端连接" + (count++) + ": " + session.RemoteEndPoint);
         }
 
-        static void AppServer_SessionClosed(AppSession session, CloseReason reason)
+        static void AppServer_SessionClosed(MyAppSession session, CloseReason reason)
         {
             Console.WriteLine("一个客户端断开了连接" + (count2++) + ": " + session.RemoteEndPoint);
         }
 
-        static void AppServer_NewRequestReceived(AppSession session, StringRequestInfo requestInfo)
+        static void AppServer_NewRequestReceived(MyAppSession session, StringRequestInfo requestInfo)
         {
-            Console.WriteLine(requestInfo.ToString());
-            session.Send(requestInfo.Body);
+            Console.WriteLine("收到客户端信息: " + requestInfo.Key + " " + requestInfo.Body);
+            //session.Send("\r\n msg:" + requestInfo.Body);
 
             //switch (requestInfo.Key.ToUpper())
             //{
@@ -147,7 +146,6 @@ namespace SuperSocketServer1
             //        break;
             //}
         }
-
     }
 
     public class MyAppSession : AppSession<MyAppSession>
@@ -157,7 +155,7 @@ namespace SuperSocketServer1
 
         protected override void OnSessionStarted()
         {
-            this.Send("Welcome to SuperSocket Telnet Server");
+            //this.Send("Welcome to SuperSocket Telnet Server");
         }
 
         protected override void HandleUnknownRequest(StringRequestInfo requestInfo)
@@ -179,6 +177,8 @@ namespace SuperSocketServer1
 
     public class MyAppServer : AppServer<MyAppSession>
     {
-
+        public MyAppServer() : base(new CommandLineReceiveFilterFactory(Encoding.Default, new BasicRequestInfoParser("?", "&")))
+        {
+        }
     }
 }
