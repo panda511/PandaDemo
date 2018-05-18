@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using SuperSocket.SocketBase;
 using SuperSocket.SocketBase.Command;
@@ -10,31 +11,35 @@ using SuperSocket.SocketBase.Protocol;
 
 namespace SuperSocketServer1
 {
-    public class Add : CommandBase<MyAppSession, StringRequestInfo>
-    {
-        public override void ExecuteCommand(MyAppSession session, StringRequestInfo requestInfo)
-        {
-            session.Send(requestInfo.Parameters.Select(p => Convert.ToInt32(p)).Sum().ToString());
-        }
-    }
+    //public class Add : CommandBase<MyAppSession, StringRequestInfo>
+    //{
+    //    public override void ExecuteCommand(MyAppSession session, StringRequestInfo requestInfo)
+    //    {
+    //        session.Send(requestInfo.Parameters.Select(p => Convert.ToInt32(p)).Sum().ToString());
+    //    }
+    //}
 
-    public class Mult : CommandBase<AppSession, StringRequestInfo>
-    {
-        public override void ExecuteCommand(AppSession session, StringRequestInfo requestInfo)
-        {
-            var result = 1;
+    //public class Mult : CommandBase<AppSession, StringRequestInfo>
+    //{
+    //    public override void ExecuteCommand(AppSession session, StringRequestInfo requestInfo)
+    //    {
+    //        var result = 1;
 
-            foreach (var factor in requestInfo.Parameters.Select(p => Convert.ToInt32(p)))
-            {
-                result *= factor;
-            }
+    //        foreach (var factor in requestInfo.Parameters.Select(p => Convert.ToInt32(p)))
+    //        {
+    //            result *= factor;
+    //        }
 
-            session.Send(result.ToString());
-        }
-    }
+    //        session.Send(result.ToString());
+    //    }
+    //}
+
 
     class Program
     {
+        static int count = 0;
+        static int count2 = 0;
+
         static void Main(string[] args)
         {
             var appServer = new AppServer();
@@ -45,13 +50,10 @@ namespace SuperSocketServer1
                 Port = 2012,
                 Name = "DyWebSocketServer8",
                 //Listeners = list,
-
-
-                MaxConnectionNumber = 311 //最大连接数，默认100
+                MaxConnectionNumber = 50000 //最大连接数，默认100
             };
 
-            //Setup the appServer
-            if (!appServer.Setup(serverConfig, connectionFilters: null)) //Setup with listening port
+            if (!appServer.Setup(serverConfig, connectionFilters: null))
             {
                 Console.WriteLine("Failed to setup!");
                 Console.ReadKey();
@@ -60,7 +62,6 @@ namespace SuperSocketServer1
 
             Console.WriteLine();
 
-            //Try to start the appServer
             if (!appServer.Start())
             {
                 Console.WriteLine("Failed to start!");
@@ -73,8 +74,29 @@ namespace SuperSocketServer1
             //新的连接
             appServer.NewSessionConnected += new SessionHandler<AppSession>(AppServer_NewSessionConnected);
 
+            //断开连接
+            appServer.SessionClosed += new SessionHandler<AppSession, CloseReason>(AppServer_SessionClosed);
+
             //新的请求
-            //appServer.NewRequestReceived += new RequestHandler<AppSession, StringRequestInfo>(AppServer_NewRequestReceived);
+            appServer.NewRequestReceived += new RequestHandler<AppSession, StringRequestInfo>(AppServer_NewRequestReceived);
+
+
+            Timer timer = new Timer((data) =>
+            {
+                //对当前已连接的符合条件的会话进行广播
+                var sessions = appServer.GetAllSessions();// appServer.GetSessions(c => c.MyCustomerId == "1");
+                if (sessions != null)
+                {
+                    foreach (var session in sessions)
+                    {
+                        session.Send("广播消息测试" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                    }
+                }
+
+            }, null, 10000, 10000);
+
+
+
 
             while (Console.ReadKey().KeyChar != 'q')
             {
@@ -91,35 +113,39 @@ namespace SuperSocketServer1
 
         static void AppServer_NewSessionConnected(AppSession session)
         {
-            session.Send("Welcome to SuperSocket Telnet Server");
-            Console.WriteLine("发现一个新的客户端连接"+ session.ToString());
+            session.Send("Welcome to SuperSocket Server");
+            Console.WriteLine("发现一个新的客户端连接" + (count++) + ": " + session.RemoteEndPoint);
+        }
+
+        static void AppServer_SessionClosed(AppSession session, CloseReason reason)
+        {
+            Console.WriteLine("一个客户端断开了连接" + (count2++) + ": " + session.RemoteEndPoint);
         }
 
         static void AppServer_NewRequestReceived(AppSession session, StringRequestInfo requestInfo)
         {
-            switch (requestInfo.Key.ToUpper())
-            {
-                case ("ECHO"):
-                    session.Send(requestInfo.Body);
-                    break;
+            Console.WriteLine(requestInfo.ToString());
+            session.Send(requestInfo.Body);
 
-                case ("ADD"):
-                    int sum = 0;
-                    requestInfo.Parameters.ToList().ForEach(c => sum += Convert.ToInt32(c));
-                    session.Send(sum.ToString());
-                    break;
-
-                case ("MULT"):
-                    var result = 1;
-
-                    foreach (var factor in requestInfo.Parameters.Select(p => Convert.ToInt32(p)))
-                    {
-                        result *= factor;
-                    }
-
-                    session.Send(result.ToString());
-                    break;
-            }
+            //switch (requestInfo.Key.ToUpper())
+            //{
+            //    case ("ECHO"):
+            //        session.Send(requestInfo.Body);
+            //        break;
+            //    case ("ADD"):
+            //        int sum = 0;
+            //        requestInfo.Parameters.ToList().ForEach(c => sum += Convert.ToInt32(c));
+            //        session.Send(sum.ToString());
+            //        break;
+            //    case ("MULT"):
+            //        var result = 1;
+            //        foreach (var factor in requestInfo.Parameters.Select(p => Convert.ToInt32(p)))
+            //        {
+            //            result *= factor;
+            //        }
+            //        session.Send(result.ToString());
+            //        break;
+            //}
         }
 
     }
@@ -151,7 +177,7 @@ namespace SuperSocketServer1
         }
     }
 
-    public class MyAppServer : AppServer<MyAppSession> 
+    public class MyAppServer : AppServer<MyAppSession>
     {
 
     }
