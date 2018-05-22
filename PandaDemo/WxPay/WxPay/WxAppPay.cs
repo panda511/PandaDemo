@@ -10,7 +10,7 @@ namespace WxPay
     /// <summary>
     /// 微信APP支付类
     /// </summary>
-    public class WxAppPay : IWxPay
+    public class WxAppPay //: IWxPay
     {
         public static readonly string AppId = "";
         public static readonly string MchId = "";
@@ -21,11 +21,11 @@ namespace WxPay
         /// 获取支付参数
         /// </summary>
         /// <returns></returns>
-        public WxPayParameter GetPayParameter(string orderNo, int amount, string body, string ip, string openId, string attach)
+        public WxPayParameter GetPayParameter(string orderNo, int amount, string body, string ip, string attach = null)
         {
             WxPayParameter param = null;
 
-            var wxOrder = CreatePrePayOrder(orderNo, amount, body, ip, openId, attach);
+            var wxOrder = CreatePrePayOrder(orderNo, amount, body, ip, attach);
             if (wxOrder.IsReturnCodeSuccess() && wxOrder.IsResultCodeSuccess())
             {
                 param = new WxPayParameter()
@@ -52,33 +52,14 @@ namespace WxPay
         /// <summary>
         /// 创建微信预支付交易单
         /// </summary>
-        private UnifiedorderResult CreatePrePayOrder(string orderNo, int amount, string body, string ip, string openId, string attach)
+        private UnifiedorderResult CreatePrePayOrder(string orderNo, int amount, string body, string ip, string attach)
         {
             string nonceStr = String2.GetGuid();
             var payType = TenPayV3Type.APP;
 
-            var param = new TenPayV3UnifiedorderRequestData(AppId, MchId, body, orderNo, amount, ip, NotifyUrl, payType, openId, Key, nonceStr);
-            param.Attach = attach;
+            var param = new TenPayV3UnifiedorderRequestData(AppId, MchId, body, orderNo, amount, ip, NotifyUrl, payType, null, Key, nonceStr, attach: attach);
             var order = TenPayV3.Unifiedorder(param);
             return order;
-        }
-
-        /// <summary>
-        /// 获取支付签名
-        /// </summary>
-        private string GetPaySign2(string nonceStr, string package, string prepayId, string timestamp)
-        {
-            //设置支付参数
-            RequestHandler paySignReqHandler = new RequestHandler(null);
-            paySignReqHandler.SetParameter("appid", AppId);
-            paySignReqHandler.SetParameter("partnerid", MchId);
-            paySignReqHandler.SetParameter("prepayid", prepayId);
-            paySignReqHandler.SetParameter("package", package);
-            paySignReqHandler.SetParameter("noncestr", nonceStr);
-            paySignReqHandler.SetParameter("timestamp", timestamp);
-            //paySignReqHandler.SetParameter("signType", signType);
-            var paySign = paySignReqHandler.CreateMd5Sign("key", Key);
-            return paySign;
         }
 
         /// <summary>

@@ -18,17 +18,19 @@ namespace WxPay
             string orderNo = "123456789";
             int amount = 360;
             string body = "abcdefg";
-            string ip = "127.0.0.1";
+            string ip = null;// "127.0.0.1";
             string openId = "openId";
             string attach = "充值订单";
 
-            //IWxPay pay = new WxAppPay();
-            //var payParam = pay.GetPayParameter(orderNo, amount, body, ip, null, attach);
+            WxAppPay pay = new WxAppPay();
+            var payParam = pay.GetPayParameter(orderNo, amount, body, ip, null, attach);
+
+            Console.WriteLine(payParam.ToJson());
 
             //IWxPay pay2 = new WxJsApiPay();
             //var payParam2 = pay2.GetPayParameter(orderNo, amount, body, ip, openId);
 
-
+            return;
 
 
             string appId = "wx2428e34e0e7dc6ef";

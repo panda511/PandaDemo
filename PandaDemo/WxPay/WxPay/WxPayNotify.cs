@@ -292,7 +292,18 @@ namespace WxPay
         {
             get
             {
-                return DateTime.ParseExact(resp.GetParameter("time_end"), "yyyyMMddHHmmss", CultureInfo.CurrentCulture);
+                DateTime result = DateTime.MinValue;
+                if (!resp.GetParameter("time_end").IsNullOrEmpty())
+                {
+                    try
+                    {
+                        result = DateTime.ParseExact(resp.GetParameter("time_end"), "yyyyMMddHHmmss", CultureInfo.CurrentCulture);
+                    }
+                    catch
+                    {
+                    }
+                }
+                return result;
             }
         }
 
