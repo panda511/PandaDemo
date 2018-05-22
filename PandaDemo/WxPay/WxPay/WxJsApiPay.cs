@@ -10,7 +10,7 @@ namespace WxPay
     /// <summary>
     /// 微信JSAPI支付类
     /// </summary>
-    public class WxJsApiPay //: IWxPay
+    public class WxJsApiPay99 //: IWxPay
     {
         public static readonly string AppId = "";
         public static readonly string MchId = "";

@@ -132,7 +132,7 @@ namespace AliPay
         }
 
         /// <summary>
-        /// 获取扫码支付的二维码图片链接(将链接用二维码工具生成二维码打印出来，顾客可以用支付宝钱包扫码支付。)
+        /// 获取扫码支付的二维码图片链接(将链接用二维码工具生成二维码打印出来，顾客可以用支付宝钱包扫码支付)
         /// </summary>
         public string GetQrCodePayLink(decimal amount, string orderNo, string subject, string body, string storeId, string operatorId)
         {

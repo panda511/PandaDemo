@@ -44,6 +44,7 @@
       <HintPath>..\packages\Senparc.Weixin.MP.14.10.13\lib\net45\Senparc.Weixin.MP.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web" />
@@ -61,6 +62,7 @@
     <Compile Include="WxPay\IWxPay.cs" />
     <Compile Include="WxPay\WxAppPay.cs" />
     <Compile Include="WxPay\WxJsApiPay.cs" />
+    <Compile Include="WxPay\WxPay.cs" />
     <Compile Include="WxPay\WxPayNotify.cs" />
     <Compile Include="WxPay\WxPayParameter.cs" />
   </ItemGroup>

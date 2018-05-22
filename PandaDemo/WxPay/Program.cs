@@ -22,8 +22,8 @@ namespace WxPay
             string openId = "openId";
             string attach = "充值订单";
 
-            WxAppPay pay = new WxAppPay();
-            var payParam = pay.GetPayParameter(orderNo, amount, body, ip, attach);
+            WxPay pay = new WxPay();
+            var payParam = pay.GetAppPayParameter(orderNo, amount, body, ip, attach);
 
             Console.WriteLine(payParam.ToJson());
 

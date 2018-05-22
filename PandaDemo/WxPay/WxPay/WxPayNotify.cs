@@ -46,13 +46,18 @@ namespace WxPay
 
             if (TradeType == TenPayV3Type.JSAPI.ToString())
             {
-                resp.SetKey(WxJsApiPay.Key);
-                appId = WxJsApiPay.AppId;
+                resp.SetKey(WxPay.JsApiKey);
+                appId = WxPay.JsApiAppId;
             }
             else if (TradeType == TenPayV3Type.APP.ToString())
             {
-                resp.SetKey(WxAppPay.Key);
-                appId = WxAppPay.AppId;
+                resp.SetKey(WxPay.AppKey);
+                appId = WxPay.AppAppId;
+            }
+            else if (TradeType == TenPayV3Type.NATIVE.ToString())
+            {
+                resp.SetKey(WxPay.JsApiKey);
+                appId = WxPay.JsApiAppId;
             }
         }
 

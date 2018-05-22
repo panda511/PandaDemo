@@ -9,7 +9,7 @@ namespace WxPay
     /// <summary>
     /// 微信支付接口
     /// </summary>
-    public interface IWxPay
+    public interface IWxPay99
     {
         WxPayParameter GetPayParameter(string orderNo, int amout, string body, string ip, string openId, string attach = null);
     }
