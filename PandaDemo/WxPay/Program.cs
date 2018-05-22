@@ -23,7 +23,7 @@ namespace WxPay
             string attach = "充值订单";
 
             WxAppPay pay = new WxAppPay();
-            var payParam = pay.GetPayParameter(orderNo, amount, body, ip, null, attach);
+            var payParam = pay.GetPayParameter(orderNo, amount, body, ip, attach);
 
             Console.WriteLine(payParam.ToJson());
 
