@@ -58,5 +58,11 @@
   <ItemGroup>
     <Content Include="dll\AopSdk.dll" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ZCommon\ZCommon.csproj">
+      <Project>{2C8C2601-ADA5-4232-B53B-7C5E240D1053}</Project>
+      <Name>ZCommon</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

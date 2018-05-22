@@ -16,8 +16,6 @@ namespace DateTime2
             TimeSpan ts = dt2 - dt1;
         }
 
-
-
         #region 线程
 
         static void Main2(string[] args)
@@ -74,9 +72,6 @@ namespace DateTime2
         }
 
         #endregion
-
-
-
 
     }
 

@@ -1,5 +1,4 @@
-﻿using Extension;
-using Senparc.Weixin.MP;
+﻿using Senparc.Weixin.MP;
 using Senparc.Weixin.MP.TenPayLibV3;
 using System;
 using System.Collections.Generic;
@@ -8,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using ZCommon.Extention;
 
 namespace WxPay
 {

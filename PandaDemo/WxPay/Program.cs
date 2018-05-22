@@ -6,8 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
-using Extension;
-using Extension.Extention;
+using ZCommon;
+using ZCommon.Extention;
 
 namespace WxPay
 {

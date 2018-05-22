@@ -1,8 +1,9 @@
 ﻿using System;
 using EasyHttp.Http;
-using Extension;
 using Senparc.Weixin.MP;
 using Senparc.Weixin.MP.TenPayLibV3;
+using ZCommon;
+using ZCommon.Extention;
 
 namespace WxPay
 {
