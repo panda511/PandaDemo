@@ -8,8 +8,8 @@ namespace ZCommon.Enum
 {
     public enum SexType
     {
-        None = 0,
+        None = -1,
         Male = 1,
-        Female = 1
+        Female = 2
     }
 }
