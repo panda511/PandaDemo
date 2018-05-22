@@ -63,7 +63,6 @@
     <Compile Include="WxPay\IWxPay.cs" />
     <Compile Include="WxPay\WxAppPay.cs" />
     <Compile Include="WxPay\WxJsApiPay.cs" />
-    <Compile Include="WxPay\WxNativePay.cs" />
     <Compile Include="WxPay\WxPayNotify.cs" />
     <Compile Include="WxPay\WxPayParameter.cs" />
   </ItemGroup>
