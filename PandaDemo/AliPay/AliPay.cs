@@ -77,7 +77,7 @@ namespace AliPay
                 Subject = subject,
                 Body = body,
                 ProductCode = ProductCode,
-                PassbackParams = HttpUtility.UrlEncode(passbackParams)
+                PassbackParams = passbackParams.IsNullOrEmpty() ? passbackParams : HttpUtility.UrlEncode(passbackParams)
             };
 
             //实例化具体API对应的request类,类名称和接口名称对应,当前调用接口名称如：alipay.trade.app.pay

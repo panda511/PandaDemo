@@ -60,6 +60,7 @@
   <ItemGroup>
     <Compile Include="DateTime2.cs" />
     <Compile Include="Enum\BoolType.cs" />
+    <Compile Include="Enum\PayWay.cs" />
     <Compile Include="Enum\SexType.cs" />
     <Compile Include="Extention\IntExtention.cs" />
     <Compile Include="Extention\ListExtention.cs" />
