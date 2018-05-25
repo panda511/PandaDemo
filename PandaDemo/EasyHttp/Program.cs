@@ -22,6 +22,7 @@ namespace EasyHttp
         static void Main(string[] args)
         {
             var http = new HttpClient();
+            var http2 = new HttpClient();
 
             //设置请求相关参数
             http.Request.Accept = HttpContentTypes.ApplicationJson;
@@ -78,7 +79,7 @@ namespace EasyHttp
             };
          
             string url = "http://api.leqin-gf.com/api/Distribution/GetCategory";
-            var response = http.Post(url, param, HttpContentTypes.ApplicationJson);
+            var response = http2.Post(url, param, HttpContentTypes.ApplicationJson);
 
             //var result = response.DynamicBody;
             //Console.WriteLine(result.msg);
