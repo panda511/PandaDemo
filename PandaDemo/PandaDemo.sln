@@ -47,7 +47,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZCommon", "ZCommon\ZCommon.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tool", "Tool", "{C055BBEB-1CFA-450C-98D0-246A76DB9369}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyHttpRequest", "EasyHttpRequest\EasyHttpRequest.csproj", "{D00CE50B-5653-4CF1-BB01-9C0002C574B1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyHttp", "EasyHttpRequest\EasyHttp.csproj", "{D00CE50B-5653-4CF1-BB01-9C0002C574B1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
