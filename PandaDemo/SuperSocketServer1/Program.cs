@@ -112,7 +112,7 @@ namespace SuperSocketServer1
 
         static void AppServer_NewSessionConnected(MyAppSession session)
         {
-            session.Send("已连接上Socket服务器");
+            //session.Send("已连接上Socket服务器");
             Console.WriteLine("发现一个新的客户端连接" + (count++) + ": " + session.RemoteEndPoint);
         }
 
@@ -125,6 +125,7 @@ namespace SuperSocketServer1
         {
             Console.WriteLine("收到客户端信息: " + requestInfo.Key + " " + requestInfo.Body);
             //session.Send("\r\n msg:" + requestInfo.Body);
+            session.Send(requestInfo.Key);
 
             //switch (requestInfo.Key.ToUpper())
             //{
@@ -177,7 +178,7 @@ namespace SuperSocketServer1
 
     public class MyAppServer : AppServer<MyAppSession>
     {
-        public MyAppServer() : base(new CommandLineReceiveFilterFactory(Encoding.Default, new BasicRequestInfoParser("?", "&")))
+        public MyAppServer() : base(new CommandLineReceiveFilterFactory(Encoding.Default, new BasicRequestInfoParser("?999", "&999")))
         {
         }
     }
