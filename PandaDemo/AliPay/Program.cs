@@ -12,19 +12,20 @@ namespace AliPay
 {
     class Program
     {
-        static void Main2(string[] args)
+        static void Main(string[] args)
         {
             AliPay pay = new AliPay();
             decimal amount = 0.03m;
             string orderNo = "123456789";
             string subject = "iphone7 黑色 64G";
             string body = "京东商城"+ subject+ orderNo;
-            string str = pay.GetWebPayParameter(amount, orderNo, subject, body);
+            Console.WriteLine("--------------------------------------------------");
+            string str = pay.GetAppPayParameter(amount, orderNo, subject, body);
             Console.WriteLine(str);
             Console.Read();
         }
 
-        static void Main(string[] args)
+        static void Main99(string[] args)
         {
             string result = "fail";
 
